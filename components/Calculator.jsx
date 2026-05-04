@@ -166,12 +166,13 @@ export default function Calculator({ preloadPayment, preloadSalary, slug, compac
     const sp10    = fvAnn(pmt, 0.105, 10);
     const btc     = fvAnn(pmt, 0.40,  10);
     const re      = fvAnn(pmt, 0.08,  10);
+    const gold    = fvAnn(pmt, 0.075, 10);
     const hy      = fvAnn(pmt, 0.045, 10);
     const trueMo  = inc * 0.205 / 12;
     const score   = calcScore(ip, apr, term);
     const gradeObj = getGrade(score);
 
-    setResults({ pmt, apr, term, ins, inc, moInc, moTot, ip, totLoan, interest, sp5, sp10, btc, re, hy, trueMo, score, gradeObj });
+    setResults({ pmt, apr, term, ins, inc, moInc, moTot, ip, totLoan, interest, sp5, sp10, btc, re, gold, hy, trueMo, score, gradeObj });
     setGated(true);
 
     setTimeout(() => {
@@ -295,7 +296,7 @@ export default function Calculator({ preloadPayment, preloadSalary, slug, compac
           <div style={S.gateEye}>Unlock your full results + Ownership Score</div>
           <h3 style={S.gateHeadline}>See where this money could go instead</h3>
           <p style={S.gateSub}>
-            Enter your email to unlock the <strong style={{ color: 'var(--light-text, #17140D)' }}>10-year wealth impact</strong> across S&P 500, Bitcoin, real estate, and HYSA — plus your personal <strong style={{ color: 'var(--light-text, #17140D)' }}>Ownership Score</strong> you can download and share.
+            Enter your email to unlock the <strong style={{ color: 'var(--light-text, #17140D)' }}>10-year wealth impact</strong> across S&P 500, Bitcoin, real estate, gold, and HYSA — plus your personal <strong style={{ color: 'var(--light-text, #17140D)' }}>Ownership Score</strong> you can download and share.
           </p>
           <div style={S.gateRow}>
             <input type="email" style={S.emailInput} value={email}
@@ -330,6 +331,7 @@ export default function Calculator({ preloadPayment, preloadSalary, slug, compac
             <AssetRow name="S&P 500 Index" rate="10.5% avg annual — 50-year historical" value={fmt(results.sp10)} top badge="BEST RISK-ADJUSTED" />
             <AssetRow name="Bitcoin" rate="~40% avg annual — extreme volatility" value={fmt(results.btc)} />
             <AssetRow name="Real Estate" rate="~8% avg annual incl. appreciation" value={fmt(results.re)} />
+            <AssetRow name="Gold / Silver" rate="~7.5% avg annual — inflation hedge" value={fmt(results.gold)} />
             <AssetRow name="High-Yield Savings (HYSA)" rate="4.5% — zero risk, current rate" value={fmt(results.hy)} />
             <div style={S.insightBox}>
               <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--light-text, #17140D)' }}>
