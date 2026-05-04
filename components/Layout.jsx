@@ -12,6 +12,7 @@ export default function Layout({ children, title, description, canonical, schema
       <Head>
         <title>{fullTitle}</title>
         <meta name="description" content={metaDesc} />
+        <meta name="google-site-verification" content="XuFoPyHe1SOn-vn_AdAX0oA7-9v2BdRTHTmN0V5Yfow" />
         {canonical && <link rel="canonical" href={canonical} />}
         {schemas && schemas.map((s, i) => (
           <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }} />
