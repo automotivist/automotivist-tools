@@ -2,7 +2,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 
-export default function Layout({ children, title, description, canonical }) {
+export default function Layout({ children, title, description, canonical, schemas }) {
   const siteName = 'The Automotivist';
   const fullTitle = title ? `${title} | ${siteName}` : `${siteName} — Car Ownership Intelligence`;
   const metaDesc = description || 'The real math behind car ownership.';
@@ -13,6 +13,9 @@ export default function Layout({ children, title, description, canonical }) {
         <title>{fullTitle}</title>
         <meta name="description" content={metaDesc} />
         {canonical && <link rel="canonical" href={canonical} />}
+        {schemas && schemas.map((s, i) => (
+          <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }} />
+        ))}
         <meta property="og:title" content={fullTitle} />
         <meta property="og:description" content={metaDesc} />
         <meta property="og:site_name" content={siteName} />
