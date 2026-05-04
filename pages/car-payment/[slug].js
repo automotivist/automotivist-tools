@@ -271,7 +271,7 @@ export default function PaymentPage({ payment, salary, data }) {
               {/* FAQ */}
               <section aria-label="Frequently asked questions" style={{ marginBottom: 40 }}>
                 <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 26, fontWeight: 800, color: '#17140D', marginBottom: 0 }}>
-                  Common questions
+                  Frequently Asked Questions
                 </h2>
                 <div>
                   {faqs.map((faq, i) => (
@@ -368,7 +368,7 @@ const cardTitle = {
 export async function getStaticPaths() {
   return {
     paths: getAllPagePaths(),
-    fallback: false,
+    fallback: 'blocking',
   };
 }
 

@@ -10,7 +10,7 @@ import {
 } from '../../lib/calculations';
 
 export async function getStaticPaths() {
-  return { paths: getAllAffordPaths(), fallback: false };
+  return { paths: getAllAffordPaths(), fallback: 'blocking' };
 }
 
 export async function getStaticProps({ params }) {
@@ -162,7 +162,7 @@ export default function AffordPage({ data, faqs, slug }) {
       <section className="section" style={{ background: 'var(--dark-bg)' }}>
         <div className="container-sm">
           <h2 className="h-display" style={{ fontSize: 'clamp(22px,3.5vw,32px)', marginBottom: 40 }}>
-            Frequently asked — <em>{salaryLabel} salary</em>
+            Frequently Asked Questions — <em>{salaryLabel} salary</em>
           </h2>
           {faqs.map((f, i) => (
             <div key={i} className="faq-item">

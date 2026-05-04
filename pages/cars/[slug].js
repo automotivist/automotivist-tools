@@ -9,7 +9,7 @@ import { VEHICLES, getVehicle, vehicleTrueCost, vehicleFAQs } from '../../lib/ve
 export async function getStaticPaths() {
   return {
     paths: VEHICLES.map(v => ({ params: { slug: v.slug } })),
-    fallback: false,
+    fallback: 'blocking',
   };
 }
 
@@ -156,7 +156,7 @@ export default function CarPage({ vehicle, cost, faqs }) {
       <section className="section" style={{ background: 'var(--dark-bg)' }}>
         <div className="container-sm">
           <h2 className="h-display" style={{ fontSize: 'clamp(22px,3.5vw,32px)', marginBottom: 40 }}>
-            {make} {model} — <em>ownership questions</em>
+            {make} {model} — <em>ownership — <em>FAQ</em>
           </h2>
           {faqs.map((f, i) => (
             <div key={i} className="faq-item">

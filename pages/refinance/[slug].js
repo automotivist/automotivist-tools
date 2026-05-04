@@ -8,7 +8,7 @@ import {
 } from '../../lib/calculations';
 
 export async function getStaticPaths() {
-  return { paths: getAllRefiPaths(), fallback: false };
+  return { paths: getAllRefiPaths(), fallback: 'blocking' };
 }
 
 export async function getStaticProps({ params }) {
@@ -131,7 +131,7 @@ export default function RefinancePage({ data, faqs, slug, oldRate, newRate }) {
       <section className="section" style={{ background: 'var(--dark-bg)' }}>
         <div className="container-sm">
           <h2 className="h-display" style={{ fontSize: 'clamp(22px,3.5vw,32px)', marginBottom: 40 }}>
-            Refinancing questions — <em>{oldRate}% to {newRate}%</em>
+            Frequently Asked Questions — <em>{oldRate}% to {newRate}%</em>
           </h2>
           {faqs.map((f, i) => (
             <div key={i} className="faq-item">

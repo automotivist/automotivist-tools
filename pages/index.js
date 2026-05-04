@@ -93,9 +93,9 @@ export default function Home() {
 
       <section className="section" style={{ background: 'var(--dark-bg)' }}>
         <div className="container-sm">
-          <p className="eyebrow" style={{ marginBottom: 16 }}>Common Questions</p>
+          <p className="eyebrow" style={{ marginBottom: 16 }}>Frequently Asked Questions</p>
           <h2 className="h-display" style={{ fontSize: 'clamp(28px,4vw,42px)', marginBottom: 48 }}>
-            What the dealership <em>does not explain</em>
+            Frequently Asked Questions — <em>car ownership costs</em>
           </h2>
           <div>
             {FAQS.map((f, i) => (

@@ -45,12 +45,15 @@ export default function Layout({ children, title, description, canonical, schema
             <div className="footer-inner">
               <div>
                 <div className="brand-mark" style={{ marginBottom: 8 }}><div className="brand-dot" /><span className="brand-name">The Automotivist</span></div>
-                <p className="footer-copy">Car math no one else shows you. Every Friday.</p>
+                <p className="footer-copy" style={{ fontSize: 15 }}>Car math no one else shows you. Every Friday.</p>
               </div>
-              <div className="footer-links">
-                <a href="https://automotivist.beehiiv.com" target="_blank" rel="noopener" className="footer-link">Newsletter</a>
-                <a href="https://x.com/_automotivist" target="_blank" rel="noopener" className="footer-link">X</a>
-                <Link href="/calculator" className="footer-link">Calculator</Link>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 14 }}>
+                <a href="https://automotivist.beehiiv.com/subscribe" target="_blank" rel="noopener" className="btn btn-primary btn-md">Subscribe Free →</a>
+                <div className="footer-links">
+                  <a href="https://automotivist.beehiiv.com" target="_blank" rel="noopener" className="footer-link" style={{ fontSize: 15 }}>Newsletter</a>
+                  <a href="https://x.com/_automotivist" target="_blank" rel="noopener" className="footer-link" style={{ fontSize: 15 }}>X / @_automotivist</a>
+                  <Link href="/calculator" className="footer-link" style={{ fontSize: 15 }}>Calculator</Link>
+                </div>
               </div>
             </div>
             <div style={{ marginTop: 24, paddingTop: 20, borderTop: '1px solid var(--dark-border)' }}>
