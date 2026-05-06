@@ -4,6 +4,7 @@
 import Layout from '../../components/Layout';
 import Link from 'next/link';
 import { AFFORD_SALARIES, fmtDollar, monthlyTakeHome, threshold15 } from '../../lib/calculations';
+import { IMAGES, unsplashUrl } from '../../lib/page-images';
 
 const SAMPLE_SALARIES = [40000,50000,60000,75000,90000,100000,120000,150000];
 
@@ -40,6 +41,15 @@ export default function CarPaymentGuide() {
             <div className="answer-text">
               Your total monthly car costs — <strong>payment plus insurance</strong> — should not exceed <strong>15% of your monthly take-home pay</strong>. Most people apply this to the payment alone and wonder why they still feel squeezed. The payment is only part of the cost.
             </div>
+          </div>
+          <img
+            src={unsplashUrl(IMAGES.carPaymentGuide.id, 1200, 480)}
+            alt={IMAGES.carPaymentGuide.alt}
+            style={{ width: '100%', height: 260, objectFit: 'cover', borderRadius: 12, marginTop: 32, display: 'block' }}
+            loading="eager"
+          />
+          <div style={{ fontFamily: 'var(--font-display)', fontSize: 11, color: 'var(--muted)', letterSpacing: '.1em', marginTop: 12 }}>
+            DATA UPDATED: {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} — Experian Q4 2025, Bankrate Q1 2026
           </div>
         </div>
       </section>

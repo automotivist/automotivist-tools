@@ -3,6 +3,7 @@
 import Layout from '../../components/Layout';
 import Link from 'next/link';
 import { VEHICLES, vehicleTrueCost } from '../../lib/vehicles-data';
+import { IMAGES, unsplashUrl } from '../../lib/page-images';
 
 const COST_COMPONENTS = [
   { name: 'Loan payment', note: 'What the dealership quotes. 60% of the real number.', monthly: null },
@@ -48,6 +49,15 @@ export default function TrueCostGuide() {
             <div className="answer-text">
               The average American spends <strong>$1,020/month</strong> to own a new car (AAA 2024). The average monthly payment is <strong>$738</strong>. That $282 gap — insurance, fuel, maintenance, fees, depreciation — is what the payment number was designed to make you forget.
             </div>
+          </div>
+          <img
+            src={unsplashUrl(IMAGES.trueCostGuide.id, 1200, 480)}
+            alt={IMAGES.trueCostGuide.alt}
+            style={{ width: '100%', height: 260, objectFit: 'cover', borderRadius: 12, marginTop: 32, display: 'block' }}
+            loading="eager"
+          />
+          <div style={{ fontFamily: 'var(--font-display)', fontSize: 11, color: 'var(--muted)', letterSpacing: '.1em', marginTop: 12 }}>
+            DATA UPDATED: {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} — AAA Driving Costs 2024, KBB/Cox Automotive
           </div>
         </div>
       </section>

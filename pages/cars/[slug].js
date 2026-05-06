@@ -1,10 +1,12 @@
 // pages/cars/[slug].js
 // "2025 [Make] [Model] true cost — what it really costs per month"
 // 35 pages at launch, infinitely expandable via vehicles-data.js
+import Head from 'next/head';
 import Layout from '../../components/Layout';
 import Calculator from '../../components/Calculator';
 import Link from 'next/link';
 import { VEHICLES, getVehicle, vehicleTrueCost, vehicleFAQs } from '../../lib/vehicles-data';
+import { getVehicleImage, unsplashUrl } from '../../lib/page-images';
 
 export async function getStaticPaths() {
   return {
@@ -28,6 +30,9 @@ export default function CarPage({ vehicle, cost, faqs }) {
 
   const overPayment = trueMo - payment;
   const overPct = Math.round((overPayment / payment) * 100);
+  const vehicleImg = getVehicleImage(type);
+  const imgAlt = typeof vehicleImg.alt === 'function' ? vehicleImg.alt(year, make, model) : vehicleImg.alt;
+  const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -51,6 +56,12 @@ export default function CarPage({ vehicle, cost, faqs }) {
       canonical={`https://tools.automotivist.com/cars/${vehicle.slug}`}
       schemas={[faqSchema]}
     >
+      <Head>
+        <meta property="og:image" content={unsplashUrl(vehicleImg.id)} />
+        <meta property="og:image:alt" content={imgAlt} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content={unsplashUrl(vehicleImg.id)} />
+      </Head>
       {/* Hero */}
       <section style={{ background: 'var(--dark-bg)', paddingTop: 56, paddingBottom: 48 }}>
         <div className="container-sm">
@@ -63,6 +74,15 @@ export default function CarPage({ vehicle, cost, faqs }) {
             <div className="answer-text">
               The payment is <strong>{fmtS(payment)}/month</strong>. But the true all-in monthly cost of owning a {year} {make} {model} is <strong>{fmtS(trueMo)}/month</strong> — <strong>{overPct}% more</strong> than what the dealership quotes. That gap is {fmtS(overPayment)}/month the payment number hides.
             </div>
+          </div>
+          <img
+            src={unsplashUrl(vehicleImg.id, 1200, 480)}
+            alt={imgAlt}
+            style={{ width: '100%', height: 260, objectFit: 'cover', borderRadius: 12, marginTop: 28, display: 'block' }}
+            loading="eager"
+          />
+          <div style={{ fontFamily: 'var(--font-display)', fontSize: 11, color: 'var(--muted)', letterSpacing: '.1em', marginTop: 10, marginBottom: 8 }}>
+            DATA UPDATED: {lastUpdated} — KBB, AAA, Edmunds
           </div>
 
           {/* True cost breakdown */}

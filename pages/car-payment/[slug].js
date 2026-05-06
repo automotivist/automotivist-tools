@@ -5,6 +5,8 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../../components/Layout';
 import Calculator from '../../components/Calculator';
+import Image from 'next/image';
+import { getPaymentImage, unsplashUrl } from '../../lib/page-images';
 import {
   parseSlug, getAllPagePaths,
   monthlyTakeHome, threshold15, paymentPercent,
@@ -26,12 +28,15 @@ export default function PaymentPage({ payment, salary, data }) {
   const vLabel  = verdictLabel(verdict);
   const isHigh  = verdict === 'too-high';
   const isBorder = verdict === 'borderline';
+  const pageImage = getPaymentImage(intent?.angle || 'borderline');
+  const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 
   // Schema markup
   const schemaArticle = {
     '@context': 'https://schema.org',
     '@type': 'Article',
-    headline: `Is a ${fmtDollar(payment)} Car Payment Too High on a ${fmtDollar(salary)} Salary?`,
+    headline: intent?.h1 || `Is a ${fmtDollar(payment)} Car Payment Too High on a ${fmtDollar(salary)} Salary?`,
+    image: unsplashUrl(pageImage.id),
     author: { '@type': 'Person', name: 'The Automotivist', url: 'https://x.com/_automotivist' },
     publisher: { '@type': 'Organization', name: 'The Automotivist', url: 'https://tools.automotivist.com' },
     datePublished: '2026-04-01',
@@ -72,6 +77,10 @@ export default function PaymentPage({ payment, salary, data }) {
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaArticle) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaFAQ) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaBreadcrumb) }} />
+        <meta property="og:image" content={unsplashUrl(pageImage.id)} />
+        <meta property="og:image:alt" content={typeof pageImage.alt === 'function' ? pageImage.alt(fmtDollar(payment), fmtDollar(salary)) : pageImage.alt} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content={unsplashUrl(pageImage.id)} />
       </Head>
 
       {/* ── Page hero (dark) ── */}
@@ -99,11 +108,26 @@ export default function PaymentPage({ payment, salary, data }) {
           </h1>
 
           {/* Hero stats */}
-          <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap', marginBottom: 40 }}>
+          <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap', marginBottom: 24 }}>
             <HeroStat label="% of take-home" value={`${pct}%`} color={isHigh ? 'var(--red)' : isBorder ? 'var(--amber)' : 'var(--green)'} />
             <HeroStat label="15% rule ceiling" value={fmtDollar(thresh15)} color="var(--mid)" />
             <HeroStat label="True monthly cost" value={fmtDollar(trueMonthly)} color="var(--amber)" />
             <HeroStat label="10-yr S&P 500 cost" value={fmtK(sp10)} color="var(--sp500)" />
+          </div>
+
+          {/* Last Updated */}
+          <div style={{ fontFamily: 'var(--font-display)', fontSize: 11, color: 'var(--muted)', letterSpacing: '.1em', marginBottom: 32 }}>
+            DATA UPDATED: {lastUpdated} — Experian, Bankrate, AAA
+          </div>
+
+          {/* Hero image */}
+          <div style={{ borderRadius: 12, overflow: 'hidden', marginBottom: 0, maxHeight: 320, position: 'relative' }}>
+            <img
+              src={unsplashUrl(pageImage.id, 1200, 480)}
+              alt={typeof pageImage.alt === 'function' ? pageImage.alt(fmtDollar(payment), fmtDollar(salary)) : pageImage.alt}
+              style={{ width: '100%', height: 280, objectFit: 'cover', display: 'block' }}
+              loading="lazy"
+            />
           </div>
         </div>
 
