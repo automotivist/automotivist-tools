@@ -11,7 +11,7 @@ import {
   estimateInsurance, estimateFuel, estimateMaintenance, trueMonthlyCost,
   totalLoanCost, totalInterest, sp500_5yr, sp500_10yr, monthlyOverspend,
   getVerdict, verdictLabel, verdictClass,
-  directAnswerText, generateFAQs, relatedPages,
+  directAnswerText, generateFAQs, relatedPages, intentProfile,
   fmtDollar, fmtK,
 } from '../../lib/calculations';
 
@@ -19,7 +19,7 @@ export default function PaymentPage({ payment, salary, data }) {
   const {
     takeHome, thresh15, pct, insEst, fuelEst, maintEst, trueMonthly,
     loan60, loan72, interest60, interest72, sp5, sp10, overspend,
-    verdict, faqs, related,
+    verdict, faqs, related, intent,
   } = data;
 
   const vClass  = verdictClass(verdict);
@@ -42,7 +42,10 @@ export default function PaymentPage({ payment, salary, data }) {
   const schemaFAQ = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: faqs.map(f => ({
+    mainEntity: [
+      ...(data.intent?.intentFAQs || []),
+      ...faqs,
+    ].map(f => ({
       '@type': 'Question',
       name: f.question,
       acceptedAnswer: { '@type': 'Answer', text: f.answer },
@@ -87,12 +90,12 @@ export default function PaymentPage({ payment, salary, data }) {
           {/* Verdict badge */}
           <div style={{ marginBottom: 16 }}>
             <span className={`verdict ${vClass}`}>{vLabel}</span>
+            {intent && <span style={{ marginLeft: 10, fontFamily: 'var(--font-display)', fontSize: 11, color: 'var(--muted)', letterSpacing: '.1em' }}>{intent.situationLabel}</span>}
           </div>
 
-          {/* H1 */}
-          <h1 className="h-display" style={{ fontSize: 'clamp(28px,5vw,48px)', marginBottom: 16, maxWidth: 720 }}>
-            Is a {fmtDollar(payment)} Car Payment Too High on a{' '}
-            <em>{fmtDollar(salary)} Salary?</em>
+          {/* H1 — intent-differentiated */}
+          <h1 className="h-display" style={{ fontSize: 'clamp(26px,4.5vw,44px)', marginBottom: 16, maxWidth: 720 }}>
+            {intent ? intent.h1 : `Is a ${fmtDollar(payment)} Car Payment Too High on a ${fmtDollar(salary)} Salary?`}
           </h1>
 
           {/* Hero stats */}
@@ -114,6 +117,13 @@ export default function PaymentPage({ payment, salary, data }) {
 
             {/* Main column */}
             <div>
+
+              {/* Intent intro — unique angle per page */}
+              {intent && (
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: 16, color: '#4A4540', lineHeight: 1.75, marginBottom: 24, borderLeft: '3px solid var(--amber)', paddingLeft: 16 }}>
+                  {intent.intro}
+                </p>
+              )}
 
               {/* Direct answer — AEO money shot */}
               <div className="answer-block">
@@ -274,8 +284,16 @@ export default function PaymentPage({ payment, salary, data }) {
                   Frequently Asked Questions
                 </h2>
                 <div>
+                  {/* Intent-specific FAQs first — differentiate from other pages */}
+                  {intent && intent.intentFAQs.map((faq, i) => (
+                    <div key={`intent-${i}`} className="faq-item" style={{ borderColor: '#D8D3C8' }}>
+                      <h3 className="faq-q" style={{ color: '#17140D' }}>{faq.question}</h3>
+                      <p className="faq-a" style={{ color: '#6A6560' }}>{faq.answer}</p>
+                    </div>
+                  ))}
+                  {/* General FAQs */}
                   {faqs.map((faq, i) => (
-                    <div key={i} className="faq-item" style={{ borderColor: '#D8D3C8' }}>
+                    <div key={`gen-${i}`} className="faq-item" style={{ borderColor: '#D8D3C8' }}>
                       <h3 className="faq-q" style={{ color: '#17140D' }}>{faq.question}</h3>
                       <p className="faq-a" style={{ color: '#6A6560' }}>{faq.answer}</p>
                     </div>
@@ -308,7 +326,24 @@ export default function PaymentPage({ payment, salary, data }) {
                 </a>
               </div>
 
-              {/* Related pages */}
+              {/* Hub guides — authority links up the chain */}
+              <div style={{ background: '#080808', borderRadius: 14, padding: 24, marginBottom: 16 }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: 10, fontWeight: 600, letterSpacing: '.2em', textTransform: 'uppercase', color: 'var(--muted)', marginBottom: 14 }}>
+                  Related Guides
+                </div>
+                {[
+                  { href: '/guides/car-payment-guide', label: 'The 15% Car Payment Rule — Complete Guide' },
+                  { href: '/guides/true-cost-of-ownership', label: 'True Cost of Car Ownership Explained' },
+                  { href: `/afford/${salary}-salary`, label: `How much car on a ${fmtDollar(salary)} salary?` },
+                ].map((link, i) => (
+                  <Link key={i} href={link.href}
+                    style={{ display: 'block', fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 600, color: 'var(--amber)', marginBottom: 10, lineHeight: 1.4, textDecoration: 'none' }}>
+                    → {link.label}
+                  </Link>
+                ))}
+              </div>
+
+              {/* Subscribe */}
               <div style={{ background: '#080808', borderRadius: 14, padding: 24 }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: 10, fontWeight: 600, letterSpacing: '.2em', textTransform: 'uppercase', color: 'var(--muted)', marginBottom: 16 }}>
                   Related Analyses
@@ -398,6 +433,7 @@ export async function getStaticProps({ params }) {
     verdict:     getVerdict(payment, salary),
     faqs:        generateFAQs(payment, salary),
     related:     relatedPages(payment, salary),
+    intent:      intentProfile(payment, salary),
   };
 
   return {
