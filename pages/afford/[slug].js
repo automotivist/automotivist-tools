@@ -41,7 +41,7 @@ export default function AffordPage({ data, faqs, slug }) {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: `How Much Car Can I Afford on a ${fmtS(salary)} Salary?`,
-    description: `Car affordability breakdown for a ${fmtS(salary)} income. 15% rule ceiling, payment limits, and vehicle price ranges.`,
+    description: `On a ${fmtS(salary)} salary, the 15% rule caps your car payment at ${fmtS(paymentCeiling15)}/month — not the $738 national average. That finances a vehicle around ${fmtS(vehicleAt15)}. Full math breakdown.`,
     author: { '@type': 'Organization', name: 'The Automotivist' },
     publisher: { '@type': 'Organization', name: 'The Automotivist', url: 'https://tools.automotivist.com' },
   };
@@ -58,7 +58,7 @@ export default function AffordPage({ data, faqs, slug }) {
   return (
     <Layout
       title={`How Much Car Can I Afford on a ${fmtS(salary)} Salary? — The Automotivist`}
-      description={`On a ${fmtS(salary)} salary your car payment ceiling is ${fmtS(paymentCeiling15)}/month. That finances a vehicle around ${fmtS(vehicleAt15)}. Full breakdown here.`}
+      description={`On a ${fmtS(salary)} salary your car payment ceiling is ${fmtS(paymentCeiling15)}/month — $${Math.max(0, 738 - paymentCeiling15)} below the $738 national average. That buys a vehicle around ${fmtS(vehicleAt15)}. Full 15% rule breakdown.`}
       canonical={`https://tools.automotivist.com/afford/${slug}`}
       schemas={[faqSchema, articleSchema]}
     >

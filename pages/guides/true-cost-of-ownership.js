@@ -34,7 +34,7 @@ export default function TrueCostGuide() {
   return (
     <Layout
       title="True Cost of Car Ownership — What Your Car Actually Costs Per Month"
-      description="The payment is 60% of the real cost. Full breakdown of insurance, fuel, maintenance, depreciation, and registration for 35 popular vehicles."
+      description="The average car costs $1,020/month all-in. The average payment is $738. That $282 gap is what dealers never show you. Full breakdown for 35 popular vehicles."
       canonical="https://tools.automotivist.com/guides/true-cost-of-ownership"
       schemas={[faqSchema]}
     >

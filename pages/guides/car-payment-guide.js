@@ -26,7 +26,7 @@ export default function CarPaymentGuide() {
   return (
     <Layout
       title="The 15% Car Payment Rule — Complete Guide by Salary"
-      description="The 15% rule caps your car payment at 15% of monthly take-home. See exact payment ceilings for every salary from $40K to $200K, with full math breakdowns."
+      description="The 15% rule: your car payment should not exceed 15% of monthly take-home. The national average is 32%. Exact ceilings for every salary from $40K to $200K."
       canonical="https://tools.automotivist.com/guides/car-payment-guide"
       schemas={[faqSchema]}
     >

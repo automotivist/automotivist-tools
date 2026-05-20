@@ -22,7 +22,7 @@ export default function RefiGuide() {
   return (
     <Layout
       title="Car Loan Refinancing Guide — When to Refi and How Much You Save"
-      description="Refinancing a car loan from 10% to 7% saves $45-65/month on a $25K balance. Full breakdown of when to refinance, how much you save, and what it takes to qualify."
+      description="Refinancing from 10% to 7% saves $45-65/month on a $25K balance — with no fees and 24-hour approval. When to refinance, how much you save, and how to qualify."
       canonical="https://tools.automotivist.com/guides/car-loan-refinancing"
       schemas={[faqSchema]}
     >

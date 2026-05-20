@@ -41,7 +41,7 @@ export default function PaymentPage({ payment, salary, data }) {
     publisher: { '@type': 'Organization', name: 'The Automotivist', url: 'https://tools.automotivist.com' },
     datePublished: '2026-04-01',
     dateModified: new Date().toISOString().split('T')[0],
-    description: `A ${fmtDollar(payment)} monthly car payment on a ${fmtDollar(salary)} salary = ${pct}% of take-home. The 15% rule says ${isHigh ? 'too high' : 'manageable'}. Full math breakdown.`,
+    description: `${fmtDollar(payment)}/month on a ${fmtDollar(salary)} salary = ${pct}% of take-home. The 15% rule ${isHigh ? 'flags this as too high' : 'says this fits'}. True all-in cost: see full breakdown.`,
   };
 
   const schemaFAQ = {
@@ -70,7 +70,15 @@ export default function PaymentPage({ payment, salary, data }) {
   return (
     <Layout
       title={`Is a ${fmtDollar(payment)} Car Payment Too High on a ${fmtDollar(salary)} Salary?`}
-      description={`A ${fmtDollar(payment)} monthly car payment on a ${fmtDollar(salary)} salary = ${pct}% of take-home pay. The 15% rule ${isHigh ? 'flags this as too high' : isBorder ? 'puts this at the edge' : 'says this fits'}. Full breakdown + free calculator.`}
+      description={(() => {
+        const angle = data.intent?.angle;
+        const over = Math.max(0, payment - thresh15);
+        const sp10k = fmtK(sp10);
+        if (angle === 'underwater') return `${fmtDollar(payment)}/month on a ${fmtDollar(salary)} salary is ${pct}% of take-home — ${fmtDollar(over)} over the 15% ceiling every month. That gap costs ${sp10k} in S&P 500 wealth over 10 years.`;
+        if (angle === 'stretched')  return `${fmtDollar(payment)}/month on a ${fmtDollar(salary)} salary is ${pct}% of take-home — ${fmtDollar(over)} above the 15% rule ceiling. True all-in cost with insurance, fuel, and maintenance: ${fmtDollar(trueMonthly)}/month.`;
+        if (angle === 'borderline') return `${fmtDollar(payment)}/month on a ${fmtDollar(salary)} salary = ${pct}% of take-home — right at the 15% ceiling. True all-in monthly cost: ${fmtDollar(trueMonthly)}. Full breakdown + Ownership Score calculator.`;
+        return `${fmtDollar(payment)}/month on a ${fmtDollar(salary)} salary = ${pct}% of take-home — inside the 15% rule. True all-in cost: ${fmtDollar(trueMonthly)}/month. Run your free Ownership Score.`;
+      })()}
       canonical={`https://tools.automotivist.com/car-payment/${payment}-per-month-${salary}-salary`}
     >
       <Head>
