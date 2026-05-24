@@ -7,7 +7,7 @@ import NewsletterCapture from '../../components/NewsletterCapture';
 import Calculator from '../../components/Calculator';
 import Link from 'next/link';
 import { VEHICLES, getVehicle, vehicleTrueCost, vehicleFAQs } from '../../lib/vehicles-data';
-import { getVehicleImage, unsplashUrl } from '../../lib/page-images';
+import { getVehicleImage, unsplashUrl, fallbackUrl } from '../../lib/page-images';
 
 export async function getStaticPaths() {
   return {
@@ -78,6 +78,7 @@ export default function CarPage({ vehicle, cost, faqs }) {
           </div>
           <img
             src={unsplashUrl(vehicleImg.id, 1200, 480)}
+            onError={(e) => { e.target.onerror = null; e.target.src = fallbackUrl(1200, 480); }}
             alt={imgAlt}
             style={{ width: '100%', height: 260, objectFit: 'cover', borderRadius: 12, marginTop: 28, display: 'block' }}
             loading="eager"

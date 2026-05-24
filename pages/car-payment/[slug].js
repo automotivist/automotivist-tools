@@ -7,7 +7,7 @@ import Layout from '../../components/Layout';
 import Calculator from '../../components/Calculator';
 import NewsletterCapture from '../../components/NewsletterCapture';
 import Image from 'next/image';
-import { getPaymentImage, unsplashUrl } from '../../lib/page-images';
+import { getPaymentImage, unsplashUrl, fallbackUrl } from '../../lib/page-images';
 import {
   parseSlug, getAllPagePaths,
   monthlyTakeHome, threshold15, paymentPercent,
@@ -133,6 +133,7 @@ export default function PaymentPage({ payment, salary, data }) {
           <div style={{ borderRadius: 12, overflow: 'hidden', marginBottom: 0, maxHeight: 320, position: 'relative' }}>
             <img
               src={unsplashUrl(pageImage.id, 1200, 480)}
+                  onError={(e) => { e.target.onerror = null; e.target.src = fallbackUrl(1200, 480); }}
               alt={typeof pageImage.alt === 'function' ? pageImage.alt(fmtDollar(payment), fmtDollar(salary)) : pageImage.alt}
               style={{ width: '100%', height: 280, objectFit: 'cover', display: 'block' }}
               loading="lazy"

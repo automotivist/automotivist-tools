@@ -4,7 +4,7 @@ import Layout from '../../components/Layout';
 import NewsletterCapture from '../../components/NewsletterCapture';
 import Link from 'next/link';
 import { VEHICLES, vehicleTrueCost } from '../../lib/vehicles-data';
-import { IMAGES, unsplashUrl } from '../../lib/page-images';
+import { IMAGES, unsplashUrl, fallbackUrl } from '../../lib/page-images';
 
 const COST_COMPONENTS = [
   { name: 'Loan payment', note: 'What the dealership quotes. 60% of the real number.', monthly: null },
@@ -53,6 +53,7 @@ export default function TrueCostGuide() {
           </div>
           <img
             src={unsplashUrl(IMAGES.trueCostGuide.id, 1200, 480)}
+            onError={(e) => { e.target.onerror = null; e.target.src = fallbackUrl(1200, 480); }}
             alt={IMAGES.trueCostGuide.alt}
             style={{ width: '100%', height: 260, objectFit: 'cover', borderRadius: 12, marginTop: 32, display: 'block' }}
             loading="eager"

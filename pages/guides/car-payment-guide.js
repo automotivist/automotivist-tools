@@ -5,7 +5,7 @@ import Layout from '../../components/Layout';
 import NewsletterCapture from '../../components/NewsletterCapture';
 import Link from 'next/link';
 import { AFFORD_SALARIES, fmtDollar, monthlyTakeHome, threshold15 } from '../../lib/calculations';
-import { IMAGES, unsplashUrl } from '../../lib/page-images';
+import { IMAGES, unsplashUrl, fallbackUrl } from '../../lib/page-images';
 
 const SAMPLE_SALARIES = [40000,50000,60000,75000,90000,100000,120000,150000];
 
@@ -45,6 +45,7 @@ export default function CarPaymentGuide() {
           </div>
           <img
             src={unsplashUrl(IMAGES.carPaymentGuide.id, 1200, 480)}
+            onError={(e) => { e.target.onerror = null; e.target.src = fallbackUrl(1200, 480); }}
             alt={IMAGES.carPaymentGuide.alt}
             style={{ width: '100%', height: 260, objectFit: 'cover', borderRadius: 12, marginTop: 32, display: 'block' }}
             loading="eager"
