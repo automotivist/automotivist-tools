@@ -5,6 +5,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../../components/Layout';
 import Calculator from '../../components/Calculator';
+import NewsletterCapture from '../../components/NewsletterCapture';
 import Image from 'next/image';
 import { getPaymentImage, unsplashUrl } from '../../lib/page-images';
 import {
@@ -309,6 +310,9 @@ export default function PaymentPage({ payment, salary, data }) {
                   compact
                 />
               </section>
+
+              {/* Newsletter capture — between calculator and FAQ */}
+              <NewsletterCapture context="car-payment" slug={`${payment}-per-month-${salary}-salary`} />
 
               {/* FAQ */}
               <section aria-label="Frequently asked questions" style={{ marginBottom: 40 }}>

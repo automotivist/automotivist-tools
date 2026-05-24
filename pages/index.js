@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Layout from '../components/Layout';
 import Calculator from '../components/Calculator';
 import Link from 'next/link';
+import NewsletterCapture from '../components/NewsletterCapture';
 
 const PROOF_STATS = [
   { value: '$738', label: 'Average US car payment — Experian Q4 2025' },

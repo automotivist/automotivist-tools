@@ -3,6 +3,7 @@
 // 35 pages at launch, infinitely expandable via vehicles-data.js
 import Head from 'next/head';
 import Layout from '../../components/Layout';
+import NewsletterCapture from '../../components/NewsletterCapture';
 import Calculator from '../../components/Calculator';
 import Link from 'next/link';
 import { VEHICLES, getVehicle, vehicleTrueCost, vehicleFAQs } from '../../lib/vehicles-data';
@@ -172,7 +173,10 @@ export default function CarPage({ vehicle, cost, faqs }) {
         </div>
       </section>
 
-      {/* FAQs */}
+      {/* Newsletter capture */}
+              <NewsletterCapture context="cars" slug={vehicle.slug} />
+
+              {/* FAQs */}
       <section className="section" style={{ background: 'var(--dark-bg)' }}>
         <div className="container-sm">
           <h2 className="h-display" style={{ fontSize: 'clamp(22px,3.5vw,32px)', marginBottom: 40 }}>

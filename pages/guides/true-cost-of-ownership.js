@@ -1,6 +1,7 @@
 // pages/guides/true-cost-of-ownership.js
 // Hub: True cost of car ownership — links to all /cars/ pages
 import Layout from '../../components/Layout';
+import NewsletterCapture from '../../components/NewsletterCapture';
 import Link from 'next/link';
 import { VEHICLES, vehicleTrueCost } from '../../lib/vehicles-data';
 import { IMAGES, unsplashUrl } from '../../lib/page-images';
@@ -76,6 +77,13 @@ export default function TrueCostGuide() {
           ))}
         </div>
       </section>
+
+      {/* Newsletter capture */}
+        <section className="section-sm" style={{ background: 'var(--dark-bg)', borderTop: '1px solid var(--dark-border)' }}>
+          <div className="container-sm">
+            <NewsletterCapture context="guides" slug="true-cost-of-ownership" />
+          </div>
+        </section>
 
       {/* FAQ */}
       <section className="section" style={{ background: 'var(--dark-bg)', borderTop: '1px solid var(--dark-border)' }}>

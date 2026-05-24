@@ -1,6 +1,7 @@
 // pages/refinance/[slug].js
 // "Refinancing a car loan from X% to Y%" — 18 pages
 import Layout from '../../components/Layout';
+import NewsletterCapture from '../../components/NewsletterCapture';
 import Calculator from '../../components/Calculator';
 import Link from 'next/link';
 import {
@@ -127,7 +128,10 @@ export default function RefinancePage({ data, faqs, slug, oldRate, newRate }) {
         </div>
       </section>
 
-      {/* FAQs */}
+      {/* Newsletter capture */}
+              <NewsletterCapture context="refinance" slug={slug} />
+
+              {/* FAQs */}
       <section className="section" style={{ background: 'var(--dark-bg)' }}>
         <div className="container-sm">
           <h2 className="h-display" style={{ fontSize: 'clamp(22px,3.5vw,32px)', marginBottom: 40 }}>

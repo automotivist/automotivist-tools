@@ -2,6 +2,7 @@
 // "How much car can I afford on a $X salary?"
 // 17 pages covering $40K-$200K salaries
 import Layout from '../../components/Layout';
+import NewsletterCapture from '../../components/NewsletterCapture';
 import Calculator from '../../components/Calculator';
 import Link from 'next/link';
 import {
@@ -158,7 +159,10 @@ export default function AffordPage({ data, faqs, slug }) {
         </div>
       </section>
 
-      {/* FAQs */}
+      {/* Newsletter capture */}
+              <NewsletterCapture context="afford" slug={slug} />
+
+              {/* FAQs */}
       <section className="section" style={{ background: 'var(--dark-bg)' }}>
         <div className="container-sm">
           <h2 className="h-display" style={{ fontSize: 'clamp(22px,3.5vw,32px)', marginBottom: 40 }}>

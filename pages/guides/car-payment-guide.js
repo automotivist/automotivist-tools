@@ -2,6 +2,7 @@
 // Hub page: The 15% car payment rule — authoritative guide
 // Links to all /afford/ salary pages and top /car-payment/ pages
 import Layout from '../../components/Layout';
+import NewsletterCapture from '../../components/NewsletterCapture';
 import Link from 'next/link';
 import { AFFORD_SALARIES, fmtDollar, monthlyTakeHome, threshold15 } from '../../lib/calculations';
 import { IMAGES, unsplashUrl } from '../../lib/page-images';
@@ -101,6 +102,13 @@ export default function CarPaymentGuide() {
           </p>
         </div>
       </section>
+
+      {/* Newsletter capture */}
+        <section className="section-sm" style={{ background: 'var(--dark-bg)', borderTop: '1px solid var(--dark-border)' }}>
+          <div className="container-sm">
+            <NewsletterCapture context="guides" slug="car-payment-guide" />
+          </div>
+        </section>
 
       {/* FAQ */}
       <section className="section" style={{ background: 'var(--dark-card)', borderTop: '1px solid var(--dark-border)' }}>

@@ -1,6 +1,7 @@
 // pages/guides/car-loan-refinancing.js
 // Hub: When and how to refinance a car loan — links to all /refinance/ pages
 import Layout from '../../components/Layout';
+import NewsletterCapture from '../../components/NewsletterCapture';
 import Link from 'next/link';
 import { REFI_COMBOS } from '../../lib/calculations';
 
@@ -59,6 +60,13 @@ export default function RefiGuide() {
           ))}
         </div>
       </section>
+
+      {/* Newsletter capture */}
+        <section className="section-sm" style={{ background: 'var(--dark-bg)', borderTop: '1px solid var(--dark-border)' }}>
+          <div className="container-sm">
+            <NewsletterCapture context="guides" slug="car-loan-refinancing" />
+          </div>
+        </section>
 
       {/* FAQ */}
       <section className="section" style={{ background: 'var(--dark-bg)', borderTop: '1px solid var(--dark-border)' }}>
