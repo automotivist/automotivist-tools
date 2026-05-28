@@ -6,7 +6,7 @@ import Layout from '../../components/Layout';
 import NewsletterCapture from '../../components/NewsletterCapture';
 import Calculator from '../../components/Calculator';
 import Link from 'next/link';
-import { VEHICLES, getVehicle, vehicleTrueCost, vehicleFAQs } from '../../lib/vehicles-data';
+import { VEHICLES, getVehicle, vehicleTrueCost, vehicleFAQs, vehicleEditorial } from '../../lib/vehicles-data';
 import { getVehicleImage, unsplashUrl, fallbackUrl } from '../../lib/page-images';
 
 export async function getStaticPaths() {
@@ -34,6 +34,8 @@ export default function CarPage({ vehicle, cost, faqs }) {
   const vehicleImg = getVehicleImage(type);
   const imgAlt = typeof vehicleImg.alt === 'function' ? vehicleImg.alt(year, make, model) : vehicleImg.alt;
   const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+  const editorial = vehicleEditorial(vehicle.slug);
 
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -162,6 +164,20 @@ export default function CarPage({ vehicle, cost, faqs }) {
           </div>
         </div>
       </section>
+
+      {/* The Automotivist Take — unique editorial per vehicle */}
+      {editorial && (
+        <section className="section-sm" style={{ background: 'var(--dark-bg)', borderTop: '1px solid var(--dark-border)' }}>
+          <div className="container-sm">
+            <div style={{ background: 'var(--dark-card)', borderLeft: '3px solid var(--amber)', borderRadius: '0 12px 12px 0', padding: '24px 28px' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 11, fontWeight: 700, letterSpacing: '.18em', textTransform: 'uppercase', color: 'var(--amber)', marginBottom: 12 }}>
+                The Automotivist Take
+              </div>
+              <p style={{ fontSize: 16, color: 'var(--light)', lineHeight: 1.8 }}>{editorial}</p>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Calculator */}
       <section style={{ background: '#EDE8E0', paddingTop: 56, paddingBottom: 72 }}>

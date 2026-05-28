@@ -5,6 +5,13 @@ const nextConfig = {
     domains: ['images.unsplash.com'],
   },
 
+  async redirects() {
+    return [
+      // Redirect /home to / so the brand homepage has one canonical URL
+      { source: '/home', destination: '/', permanent: true },
+    ];
+  },
+
   async headers() {
     return [
       // Allow calculator page to be embedded in Beehiiv posts and iframes

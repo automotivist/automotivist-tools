@@ -5,7 +5,7 @@ import NewsletterCapture from '../../components/NewsletterCapture';
 import Calculator from '../../components/Calculator';
 import Link from 'next/link';
 import {
-  getAllRefiPaths, parseRefiSlug, refiData, refiFAQs, refiSavings, REFI_COMBOS
+  getAllRefiPaths, parseRefiSlug, refiData, refiFAQs, refiSavings, REFI_COMBOS, refiContext
 } from '../../lib/calculations';
 
 export async function getStaticPaths() {
@@ -25,6 +25,7 @@ export default function RefinancePage({ data, faqs, slug, oldRate, newRate }) {
   const rateDiff = oldRate - newRate;
   const sample25k = data.rows.find(r => r.balance === 25000) || data.rows[3];
   const sample20k = data.rows.find(r => r.balance === 20000) || data.rows[2];
+  const editorial = refiContext(oldRate, newRate);
 
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -114,6 +115,29 @@ export default function RefinancePage({ data, faqs, slug, oldRate, newRate }) {
           <p style={{ fontSize: 16, color: 'var(--light)', lineHeight: 1.7 }}>
             At {rateDiff}%, this is a refinance worth doing. Most lenders charge no fees on auto refinancing. Free application, 24-hour approval, and {fmtS(sample25k.monthlySaving)} back in your pocket every month. The only reason not to: if you are within 12 months of paying the loan off.
           </p>
+        </div>
+      </section>
+
+      {/* The Automotivist Take — unique editorial, not formula */}
+      <section className="section-sm" style={{ background: 'var(--dark-bg)', borderTop: '1px solid var(--dark-border)' }}>
+        <div className="container-sm">
+          <h2 className="h-display" style={{ fontSize: 'clamp(20px,3vw,28px)', marginBottom: 20 }}>
+            Who this refinance <em>actually makes sense for</em>
+          </h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <div style={{ background: 'var(--dark-card)', border: '1px solid var(--dark-border)', borderRadius: 12, padding: '20px 24px' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 11, fontWeight: 700, letterSpacing: '.16em', textTransform: 'uppercase', color: 'var(--amber)', marginBottom: 10 }}>Who typically has this rate</div>
+              <p style={{ fontSize: 15, color: 'var(--mid)', lineHeight: 1.75 }}>{editorial.who}</p>
+            </div>
+            <div style={{ background: 'var(--dark-card)', border: '1px solid var(--dark-border)', borderRadius: 12, padding: '20px 24px' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 11, fontWeight: 700, letterSpacing: '.16em', textTransform: 'uppercase', color: 'var(--amber)', marginBottom: 10 }}>When to pull the trigger</div>
+              <p style={{ fontSize: 15, color: 'var(--mid)', lineHeight: 1.75 }}>{editorial.when}</p>
+            </div>
+            <div style={{ background: 'var(--dark-card)', border: '1px solid var(--dark-border)', borderRadius: 12, padding: '20px 24px' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 11, fontWeight: 700, letterSpacing: '.16em', textTransform: 'uppercase', color: 'var(--amber)', marginBottom: 10 }}>Rate context</div>
+              <p style={{ fontSize: 15, color: 'var(--mid)', lineHeight: 1.75 }}>{editorial.context}</p>
+            </div>
+          </div>
         </div>
       </section>
 
