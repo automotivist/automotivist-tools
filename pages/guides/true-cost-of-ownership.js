@@ -1,5 +1,5 @@
 // pages/guides/true-cost-of-ownership.js
-// Hub: True cost of car ownership — links to all /cars/ pages
+// Hub: True cost of car ownership - links to all /cars/ pages
 import Layout from '../../components/Layout';
 import NewsletterCapture from '../../components/NewsletterCapture';
 import Link from 'next/link';
@@ -16,11 +16,11 @@ const COST_COMPONENTS = [
 ];
 
 const FAQS = [
-  { q: 'What is the true monthly cost of owning a car?', a: 'AAA\'s 2024 driving cost study puts the average all-in monthly cost of a new vehicle at $1,020 — covering the loan payment, insurance, fuel, maintenance, registration, and depreciation. The payment alone is typically 55-65% of the actual monthly cost.' },
-  { q: 'How much does car depreciation cost per month?', a: 'A new car loses roughly 15-20% of its value in the first year — about $4,500 on a $30,000 vehicle. That is $375/month in year one alone, purely from the clock ticking. Depreciation is the single largest cost of new car ownership that never appears on a payment statement.' },
+  { q: 'What is the true monthly cost of owning a car?', a: 'AAA\'s 2024 driving cost study puts the average all-in monthly cost of a new vehicle at $1,020 - covering the loan payment, insurance, fuel, maintenance, registration, and depreciation. The payment alone is typically 55-65% of the actual monthly cost.' },
+  { q: 'How much does car depreciation cost per month?', a: 'A new car loses roughly 15-20% of its value in the first year - about $4,500 on a $30,000 vehicle. That is $375/month in year one alone, purely from the clock ticking. Depreciation is the single largest cost of new car ownership that never appears on a payment statement.' },
   { q: 'Is it cheaper to own a used car vs a new car?', a: 'Yes, in almost every case. A 3-year-old vehicle has absorbed the steepest depreciation curve, often saving $150-250/month in depreciation alone compared to new. Maintenance costs are somewhat higher but rarely offset the depreciation savings for vehicles under 100,000 miles.' },
   { q: 'What is the cheapest car to own long-term?', a: 'Toyota and Honda consistently top total cost of ownership rankings due to lower maintenance costs and slower depreciation. A paid-off Toyota Camry or Honda Civic at 80,000 miles costs $400-600/month all-in versus $900-1,200/month for the equivalent new vehicle with a payment.' },
-  { q: 'Does car insurance count toward the 15% rule?', a: 'Yes. The 15% rule applies to total car costs including insurance. If insurance is $175/month and your ceiling is $600/month, your actual payment ceiling is $425/month — not $600. This is one of the most common misapplications of the rule.' },
+  { q: 'Does car insurance count toward the 15% rule?', a: 'Yes. The 15% rule applies to total car costs including insurance. If insurance is $175/month and your ceiling is $600/month, your actual payment ceiling is $425/month - not $600. This is one of the most common misapplications of the rule.' },
 ];
 
 const faqSchema = {
@@ -34,7 +34,7 @@ const featuredVehicles = VEHICLES.slice(0, 12);
 export default function TrueCostGuide() {
   return (
     <Layout
-      title="True Cost of Car Ownership — What Your Car Actually Costs Per Month"
+      title="True Cost of Car Ownership - What Your Car Actually Costs Per Month"
       description="The average car costs $1,020/month all-in. The average payment is $738. That $282 gap is what dealers never show you. Full breakdown for 35 popular vehicles."
       canonical="https://tools.automotivist.com/guides/true-cost-of-ownership"
       schemas={[faqSchema]}
@@ -43,12 +43,12 @@ export default function TrueCostGuide() {
         <div className="container-sm">
           <p className="eyebrow" style={{ marginBottom: 12 }}>Complete Guide</p>
           <h1 className="h-display" style={{ fontSize: 'clamp(34px,6vw,56px)', marginBottom: 24 }}>
-            True cost of car ownership — <em>what the payment hides</em>
+            True cost of car ownership - <em>what the payment hides</em>
           </h1>
           <div className="answer-block">
             <div className="answer-verdict">The Real Number</div>
             <div className="answer-text">
-              The average American spends <strong>$1,020/month</strong> to own a new car (AAA 2024). The average monthly payment is <strong>$738</strong>. That $282 gap — insurance, fuel, maintenance, fees, depreciation — is what the payment number was designed to make you forget.
+              The average American spends <strong>$1,020/month</strong> to own a new car (AAA 2024). The average monthly payment is <strong>$738</strong>. That $282 gap - insurance, fuel, maintenance, fees, depreciation - is what the payment number was designed to make you forget.
             </div>
           </div>
           <img
@@ -59,7 +59,7 @@ export default function TrueCostGuide() {
             loading="eager"
           />
           <div style={{ fontFamily: 'var(--font-display)', fontSize: 11, color: 'var(--muted)', letterSpacing: '.1em', marginTop: 12 }}>
-            DATA UPDATED: {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} — AAA Driving Costs 2024, KBB/Cox Automotive
+            DATA UPDATED: {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} - AAA Driving Costs 2024, KBB/Cox Automotive
           </div>
         </div>
       </section>
@@ -76,6 +76,23 @@ export default function TrueCostGuide() {
               <div style={{ fontSize: 14, color: 'var(--mid)', lineHeight: 1.6 }}>{c.note}</div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Personal voice section */}
+      <section className="section-sm" style={{ background: 'var(--dark-bg)', borderTop: '1px solid var(--dark-border)' }}>
+        <div className="container-sm">
+          <h2 className="h-display" style={{ fontSize: 'clamp(20px,3vw,28px)', marginBottom: 20 }}>
+            The number the sticker never shows
+          </h2>
+          <div style={{ borderLeft: '3px solid var(--amber)', paddingLeft: 24 }}>
+            <p style={{ fontSize: 16, color: 'var(--mid)', lineHeight: 1.8, marginBottom: 16 }}>
+              I paid off a Porsche Cayenne early. It cost me more than I expected in every category that was not the payment. Insurance was $420/month. Premium fuel added $180/month. Two service visits per year at the dealer averaged $1,100 each. The payment was the smallest line item in the true monthly cost. That is not a Porsche problem. That is a car problem. It happens at every price point.
+            </p>
+            <p style={{ fontSize: 16, color: 'var(--mid)', lineHeight: 1.8 }}>
+              The $282 gap between the average payment ($738) and the average true cost ($1,020) is not a rounding error. It is a structural feature of how cars are sold. The monthly payment is the number that closes the deal. The true cost is the number that shows up every month for the next five years. Most buyers only run the first one.
+            </p>
+          </div>
         </div>
       </section>
 

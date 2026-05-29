@@ -1,6 +1,6 @@
 // components/NewsletterCapture.jsx
-// Inline newsletter capture — appears mid-page on all content pages
-// Lower friction than the calculator gate — no tool required to subscribe
+// Inline newsletter capture - appears mid-page on all content pages
+// Lower friction than the calculator gate - no tool required to subscribe
 import { useState } from 'react';
 import { BEEHIIV_PUB_ID } from '../lib/calculations';
 
@@ -26,7 +26,7 @@ export default function NewsletterCapture({ context = 'default', slug = '' }) {
     },
     'cars': {
       eyebrow: 'Every Friday',
-      headline: 'The true cost of every car — not just the payment.',
+      headline: 'The true cost of every car - not just the payment.',
       sub: 'Insurance, depreciation, fuel, maintenance. The number the sticker never shows.',
     },
     'guides': {
@@ -72,7 +72,7 @@ export default function NewsletterCapture({ context = 'default', slug = '' }) {
           <div style={S.doneIcon}>✓</div>
           <div>
             <div style={S.doneHead}>You are in. First issue lands Friday.</div>
-            <div style={S.doneSub}>Check your inbox to confirm — then you are set.</div>
+            <div style={S.doneSub}>Check your inbox to confirm - then you are set.</div>
           </div>
         </div>
       </div>

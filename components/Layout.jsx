@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function Layout({ children, title, description, canonical, schemas }) {
   const siteName = 'The Automotivist';
-  const fullTitle = title ? `${title} | ${siteName}` : `${siteName} — Car Ownership Intelligence`;
+  const fullTitle = title ? `${title} | ${siteName}` : `${siteName} - Car Ownership Intelligence`;
   const metaDesc = description || 'The real math behind car ownership.';
 
   return (

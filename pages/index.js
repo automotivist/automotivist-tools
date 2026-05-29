@@ -1,4 +1,4 @@
-// pages/index.js — Calculator landing page
+// pages/index.js - Calculator landing page
 import Head from 'next/head';
 import Layout from '../components/Layout';
 import Calculator from '../components/Calculator';
@@ -6,7 +6,7 @@ import Link from 'next/link';
 import NewsletterCapture from '../components/NewsletterCapture';
 
 const PROOF_STATS = [
-  { value: '$738', label: 'Average US car payment — Experian Q4 2025' },
+  { value: '$738', label: 'Average US car payment - Experian Q4 2025' },
   { value: '32%',  label: 'Of take-home the average payment consumes' },
   { value: '$47K', label: 'S&P 500 value of $600/mo invested over 10 years' },
 ];
@@ -14,7 +14,7 @@ const PROOF_STATS = [
 const FAQS = [
   {
     q: 'What percentage of income should go to a car payment?',
-    a: "The 15% rule caps your total car costs — payment plus insurance — at 15% of monthly take-home pay. Most financial planners treat 10% as conservative and 20% as the absolute ceiling. The national average in 2025 sits at 32% of take-home, which is why so many households feel permanently squeezed.",
+    a: "The 15% rule caps your total car costs - payment plus insurance - at 15% of monthly take-home pay. Most financial planners treat 10% as conservative and 20% as the absolute ceiling. The national average in 2025 sits at 32% of take-home, which is why so many households feel permanently squeezed.",
   },
   {
     q: 'How much car can I afford on a $60,000 salary?',
@@ -22,11 +22,11 @@ const FAQS = [
   },
   {
     q: 'Is a $700 car payment too high?',
-    a: "It depends entirely on income. On a $90,000 salary, $700 is inside the 15% ceiling. On a $60,000 salary, it represents 22% of take-home — well above it. Use the calculator above with your exact numbers. The payment alone is not the answer. Your income is half the equation.",
+    a: "It depends entirely on income. On a $90,000 salary, $700 is inside the 15% ceiling. On a $60,000 salary, it represents 22% of take-home - well above it. Use the calculator above with your exact numbers. The payment alone is not the answer. Your income is half the equation.",
   },
   {
     q: 'What is the true monthly cost of car ownership beyond the payment?',
-    a: "AAA's 2024 driving cost study puts the average all-in monthly cost of a new vehicle at $1,020 — that includes the payment, insurance, fuel, maintenance, registration, and depreciation. The payment is usually only 60-65% of what you actually spend on the car each month.",
+    a: "AAA's 2024 driving cost study puts the average all-in monthly cost of a new vehicle at $1,020 - that includes the payment, insurance, fuel, maintenance, registration, and depreciation. The payment is usually only 60-65% of what you actually spend on the car each month.",
   },
   {
     q: 'What does a $600/month car payment cost over 5 years?',
@@ -34,11 +34,11 @@ const FAQS = [
   },
   {
     q: 'How do I know if I am overpaying on my car loan?',
-    a: "Three signals: your APR is above 7% and your credit score has improved since you bought, you are in a 72-84 month term because the payment felt manageable, or you have negative equity. All three are refinancing signals. The calculator shows your interest total — if it is more than 15% of your principal, it is worth running refi numbers.",
+    a: "Three signals: your APR is above 7% and your credit score has improved since you bought, you are in a 72-84 month term because the payment felt manageable, or you have negative equity. All three are refinancing signals. The calculator shows your interest total - if it is more than 15% of your principal, it is worth running refi numbers.",
   },
   {
     q: 'Should I pay off my car loan early or invest the extra money?',
-    a: "Compare your APR to what you would earn investing. If your car loan is at 7.5% APR and the S&P 500 averages 10.5%, investing wins mathematically. If your loan is at 4% or below, investing almost always wins. If your loan is above 8%, paying it off first is often the better guaranteed return — especially if the loan has no prepayment penalty.",
+    a: "Compare your APR to what you would earn investing. If your car loan is at 7.5% APR and the S&P 500 averages 10.5%, investing wins mathematically. If your loan is at 4% or below, investing almost always wins. If your loan is above 8%, paying it off first is often the better guaranteed return - especially if the loan has no prepayment penalty.",
   },
 ];
 
@@ -55,7 +55,7 @@ const FAQ_SCHEMA = {
 export default function Home() {
   return (
     <Layout
-      title="Car Ownership Score Calculator — Is Your Car Payment Too High?"
+      title="Car Ownership Score Calculator - Is Your Car Payment Too High?"
       description="Enter your car payment, APR, and income. Get your Ownership Score, true monthly cost, and 10-year wealth impact in 30 seconds."
       canonical="https://tools.automotivist.com"
     >
@@ -96,7 +96,7 @@ export default function Home() {
         <div className="container-sm">
           <p className="eyebrow" style={{ marginBottom: 16 }}>Frequently Asked Questions</p>
           <h2 className="h-display" style={{ fontSize: 'clamp(28px,4vw,42px)', marginBottom: 48 }}>
-            Frequently Asked Questions — <em>car ownership costs</em>
+            Frequently Asked Questions - <em>car ownership costs</em>
           </h2>
           <div>
             {FAQS.map((f, i) => (

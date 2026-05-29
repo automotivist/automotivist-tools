@@ -1,32 +1,31 @@
-// pages/afford/[slug].js
-// "How much car can I afford on a $X salary?"
-// 17 pages covering $40K-$200K salaries
+// pages/refinance/[slug].js
+// "Refinancing a car loan from X% to Y%" - 18 pages
 import Layout from '../../components/Layout';
 import NewsletterCapture from '../../components/NewsletterCapture';
 import Calculator from '../../components/Calculator';
 import Link from 'next/link';
 import {
-  getAllAffordPaths, parseAffordSlug, affordData, affordFAQs,
-  AFFORD_SALARIES, fmtDollar
+  getAllRefiPaths, parseRefiSlug, refiData, refiFAQs, refiSavings, REFI_COMBOS, refiContext
 } from '../../lib/calculations';
 
 export async function getStaticPaths() {
-  return { paths: getAllAffordPaths(), fallback: 'blocking' };
+  return { paths: getAllRefiPaths(), fallback: 'blocking' };
 }
 
 export async function getStaticProps({ params }) {
-  const parsed = parseAffordSlug(params.slug);
+  const parsed = parseRefiSlug(params.slug);
   if (!parsed) return { notFound: true };
-  const data = affordData(parsed.salary);
-  const faqs = affordFAQs(parsed.salary);
-  return { props: { data, faqs, slug: params.slug } };
+  const data = refiData(parsed.oldRate, parsed.newRate);
+  const faqs = refiFAQs(parsed.oldRate, parsed.newRate);
+  return { props: { data, faqs, slug: params.slug, oldRate: parsed.oldRate, newRate: parsed.newRate } };
 }
 
-export default function AffordPage({ data, faqs, slug }) {
-  const { salary, takeHome, max15, paymentCeiling15, paymentCeiling10, vehicleAt15, vehicleAt10, sp10_15 } = data;
-
-  const fmtS = n => '$' + n.toLocaleString();
-  const salaryLabel = '$' + (salary >= 1000 ? (salary/1000).toFixed(0) + 'K' : salary.toLocaleString());
+export default function RefinancePage({ data, faqs, slug, oldRate, newRate }) {
+  const fmtS = n => '$' + Math.round(n).toLocaleString();
+  const rateDiff = oldRate - newRate;
+  const sample25k = data.rows.find(r => r.balance === 25000) || data.rows[3];
+  const sample20k = data.rows.find(r => r.balance === 20000) || data.rows[2];
+  const editorial = refiContext(oldRate, newRate);
 
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -38,112 +37,106 @@ export default function AffordPage({ data, faqs, slug }) {
     })),
   };
 
-  const articleSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: `How Much Car Can I Afford on a ${fmtS(salary)} Salary?`,
-    description: `On a ${fmtS(salary)} salary, the 15% rule caps your car payment at ${fmtS(paymentCeiling15)}/month — not the $738 national average. That finances a vehicle around ${fmtS(vehicleAt15)}. Full math breakdown.`,
-    author: { '@type': 'Organization', name: 'The Automotivist' },
-    publisher: { '@type': 'Organization', name: 'The Automotivist', url: 'https://tools.automotivist.com' },
-  };
-
-  // Related salaries
-  const idx = AFFORD_SALARIES.indexOf(salary);
-  const related = [
-    idx > 0 && AFFORD_SALARIES[idx - 1],
-    idx < AFFORD_SALARIES.length - 1 && AFFORD_SALARIES[idx + 1],
-    idx > 1 && AFFORD_SALARIES[idx - 2],
-    idx < AFFORD_SALARIES.length - 2 && AFFORD_SALARIES[idx + 2],
-  ].filter(Boolean).slice(0, 4);
+  const relatedCombos = REFI_COMBOS
+    .filter(c => c.oldRate === oldRate && c.newRate !== newRate)
+    .slice(0, 2)
+    .concat(REFI_COMBOS.filter(c => c.newRate === newRate && c.oldRate !== oldRate).slice(0, 2))
+    .slice(0, 4);
 
   return (
     <Layout
-      title={`How Much Car Can I Afford on a ${fmtS(salary)} Salary? — The Automotivist`}
-      description={`On a ${fmtS(salary)} salary your car payment ceiling is ${fmtS(paymentCeiling15)}/month — $${Math.max(0, 738 - paymentCeiling15)} below the $738 national average. That buys a vehicle around ${fmtS(vehicleAt15)}. Full 15% rule breakdown.`}
-      canonical={`https://tools.automotivist.com/afford/${slug}`}
-      schemas={[faqSchema, articleSchema]}
+      title={`Refinance Car Loan from ${oldRate}% to ${newRate}% - How Much Do You Save?`}
+      description={`Dropping from ${oldRate}% to ${newRate}% saves ${fmtS(sample25k.monthlySaving)}/month and ${fmtS(sample25k.totalSaving)} total on a $25,000 balance. No fees to refinance. See the full savings breakdown by loan amount.`}
+      canonical={`https://tools.automotivist.com/refinance/${slug}`}
+      schemas={[faqSchema]}
     >
-      {/* Direct answer block */}
+      {/* Direct answer */}
       <section style={{ background: 'var(--dark-bg)', paddingTop: 56, paddingBottom: 48 }}>
         <div className="container-sm">
-          <p className="eyebrow" style={{ marginBottom: 12 }}>Car Affordability — {salaryLabel} Salary</p>
-          <h1 className="h-display" style={{ fontSize: 'clamp(36px,6vw,58px)', marginBottom: 24 }}>
-            How much car can you afford on a <em>{fmtS(salary)} salary?</em>
+          <p className="eyebrow" style={{ marginBottom: 12 }}>Car Loan Refinancing - {oldRate}% to {newRate}%</p>
+          <h1 className="h-display" style={{ fontSize: 'clamp(34px,6vw,56px)', marginBottom: 24 }}>
+            Refinancing from <em>{oldRate}% to {newRate}%</em> - what you actually save
           </h1>
           <div className="answer-block">
             <div className="answer-verdict">Direct Answer</div>
             <div className="answer-text">
-              On a <strong>{fmtS(salary)} salary</strong>, your take-home is roughly <strong>{fmtS(takeHome)}/month</strong>. The 15% rule caps total car costs at <strong>{fmtS(max15)}/month</strong>. After insurance, your car <strong>payment ceiling is {fmtS(paymentCeiling15)}/month</strong> — which finances a vehicle priced around <strong>{fmtS(vehicleAt15)}</strong>.
+              Dropping from <strong>{oldRate}%</strong> to <strong>{newRate}%</strong> on a $25,000 balance with 60 months remaining saves <strong>{fmtS(sample25k.monthlySaving)}/month</strong> and <strong>{fmtS(sample25k.totalSaving)} total</strong>. Refinancing costs $0-300 in fees - you break even in roughly <strong>{data.breakeven} months</strong>.
             </div>
           </div>
 
-          {/* Key numbers grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2, background: 'var(--dark-border)', borderRadius: 12, overflow: 'hidden', marginTop: 32 }}>
-            {[
-              { label: 'Monthly take-home', value: fmtS(takeHome), sub: 'after estimated taxes' },
-              { label: '15% ceiling (total car)', value: fmtS(max15), sub: 'payment + insurance combined' },
-              { label: 'Payment ceiling (15%)', value: fmtS(paymentCeiling15), sub: 'after $175 insurance estimate' },
-              { label: 'Max vehicle price', value: fmtS(vehicleAt15), sub: '60-month loan, 7.5% APR' },
-            ].map((item, i) => (
-              <div key={i} style={{ background: 'var(--dark-card)', padding: '22px 20px' }}>
-                <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 8, fontFamily: 'var(--font-display)', letterSpacing: '.12em', textTransform: 'uppercase' }}>{item.label}</div>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(24px,4vw,32px)', fontWeight: 800, color: 'var(--amber)', lineHeight: 1, marginBottom: 6 }}>{item.value}</div>
-                <div style={{ fontSize: 12, color: 'var(--muted)' }}>{item.sub}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Conservative vs aggressive table */}
-      <section className="section-sm" style={{ background: 'var(--dark-card)', borderTop: '1px solid var(--dark-border)' }}>
-        <div className="container-sm">
-          <h2 className="h-display" style={{ fontSize: 'clamp(22px,3.5vw,32px)', marginBottom: 28 }}>Conservative vs. <em>aggressive ceiling</em></h2>
+          {/* Savings table by balance */}
+          <h2 className="h-display" style={{ fontSize: 'clamp(18px,3vw,26px)', marginTop: 48, marginBottom: 24 }}>
+            Monthly savings by <em>loan balance</em>
+          </h2>
           <table className="data-table">
             <thead>
               <tr>
-                <th>Rule</th>
-                <th>Total car budget</th>
-                <th>Payment ceiling</th>
-                <th>Max vehicle</th>
+                <th>Loan Balance</th>
+                <th>Old payment ({oldRate}%)</th>
+                <th>New payment ({newRate}%)</th>
+                <th>Monthly savings</th>
+                <th>Total savings (60mo)</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td><strong style={{ color: 'var(--green)' }}>10% rule</strong> — conservative</td>
-                <td>{fmtS(data.max10)}/mo</td>
-                <td>{fmtS(paymentCeiling10)}/mo</td>
-                <td>{fmtS(vehicleAt10)}</td>
-              </tr>
-              <tr className="total">
-                <td><strong style={{ color: 'var(--amber)' }}>15% rule</strong> — standard ceiling</td>
-                <td>{fmtS(max15)}/mo</td>
-                <td>{fmtS(paymentCeiling15)}/mo</td>
-                <td>{fmtS(vehicleAt15)}</td>
-              </tr>
+              {data.rows.map((row, i) => (
+                <tr key={i} className={row.balance === 25000 ? 'total' : ''}>
+                  <td>{fmtS(row.balance)}</td>
+                  <td>{fmtS(row.oldPmt)}</td>
+                  <td>{fmtS(row.newPmt)}</td>
+                  <td style={{ color: 'var(--green)' }}>{fmtS(row.monthlySaving)}/mo</td>
+                  <td>{fmtS(row.totalSaving)}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
-          <p style={{ fontSize: 14, color: 'var(--muted)', marginTop: 16, lineHeight: 1.6 }}>
-            Vehicle price assumes a 60-month loan at 7.5% APR. Insurance estimated at $175/month. Your actual insurance may vary by state, age, and driving history.
+          <p style={{ fontSize: 13, color: 'var(--muted)', marginTop: 12 }}>60-month remaining term assumed. Actual savings depend on your balance and remaining months.</p>
+        </div>
+      </section>
+
+      {/* Is it worth it analysis */}
+      <section className="section-sm" style={{ background: 'var(--dark-card)', borderTop: '1px solid var(--dark-border)' }}>
+        <div className="container-sm">
+          <h2 className="h-display" style={{ fontSize: 'clamp(22px,3.5vw,32px)', marginBottom: 24 }}>
+            Is a {rateDiff}% rate drop <em>worth the paperwork?</em>
+          </h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 2, background: 'var(--dark-border)', borderRadius: 12, overflow: 'hidden', marginBottom: 32 }}>
+            {[
+              { label: 'Monthly savings (25K balance)', value: fmtS(sample25k.monthlySaving) },
+              { label: 'Total savings over loan', value: fmtS(sample25k.totalSaving) },
+              { label: 'Breakeven point', value: data.breakeven + ' months' },
+            ].map((item, i) => (
+              <div key={i} style={{ background: 'var(--dark-bg)', padding: '20px 16px', textAlign: 'center' }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(22px,3.5vw,30px)', fontWeight: 800, color: 'var(--amber)', lineHeight: 1, marginBottom: 8 }}>{item.value}</div>
+                <div style={{ fontSize: 12, color: 'var(--muted)', lineHeight: 1.4 }}>{item.label}</div>
+              </div>
+            ))}
+          </div>
+          <p style={{ fontSize: 16, color: 'var(--light)', lineHeight: 1.7 }}>
+            At {rateDiff}%, this is a refinance worth doing. Most lenders charge no fees on auto refinancing. Free application, 24-hour approval, and {fmtS(sample25k.monthlySaving)} back in your pocket every month. The only reason not to: if you are within 12 months of paying the loan off.
           </p>
         </div>
       </section>
 
-      {/* Opportunity cost */}
+      {/* The Automotivist Take - unique editorial, not formula */}
       <section className="section-sm" style={{ background: 'var(--dark-bg)', borderTop: '1px solid var(--dark-border)' }}>
         <div className="container-sm">
-          <h2 className="h-display" style={{ fontSize: 'clamp(22px,3.5vw,32px)', marginBottom: 16 }}>
-            What that payment costs <em>long-term</em>
+          <h2 className="h-display" style={{ fontSize: 'clamp(20px,3vw,28px)', marginBottom: 20 }}>
+            Who this refinance <em>actually makes sense for</em>
           </h2>
-          <p style={{ fontSize: 17, color: 'var(--mid)', lineHeight: 1.65, marginBottom: 28 }}>
-            {fmtS(paymentCeiling15)}/month invested in the S&P 500 at 10.5% historical average returns grows to <strong style={{ color: 'var(--amber)' }}>{fmtS(sp10_15)}</strong> over 10 years. That is the real price of every car decision — not the payment, not the sticker. The opportunity cost.
-          </p>
-          <div style={{ background: 'var(--dark-card)', border: '1px solid var(--dark-border-2)', borderRadius: 12, padding: '20px 24px' }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', color: 'var(--muted)', marginBottom: 12 }}>The Automotivist Frame</div>
-            <p style={{ fontSize: 16, color: 'var(--light)', lineHeight: 1.7 }}>
-              "Your car is the only asset most people own that fights their wealth every single month."
-              A {fmtS(salary)} income gives you room around the car. Use it.
-            </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <div style={{ background: 'var(--dark-card)', border: '1px solid var(--dark-border)', borderRadius: 12, padding: '20px 24px' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 11, fontWeight: 700, letterSpacing: '.16em', textTransform: 'uppercase', color: 'var(--amber)', marginBottom: 10 }}>Who typically has this rate</div>
+              <p style={{ fontSize: 15, color: 'var(--mid)', lineHeight: 1.75 }}>{editorial.who}</p>
+            </div>
+            <div style={{ background: 'var(--dark-card)', border: '1px solid var(--dark-border)', borderRadius: 12, padding: '20px 24px' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 11, fontWeight: 700, letterSpacing: '.16em', textTransform: 'uppercase', color: 'var(--amber)', marginBottom: 10 }}>When to pull the trigger</div>
+              <p style={{ fontSize: 15, color: 'var(--mid)', lineHeight: 1.75 }}>{editorial.when}</p>
+            </div>
+            <div style={{ background: 'var(--dark-card)', border: '1px solid var(--dark-border)', borderRadius: 12, padding: '20px 24px' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 11, fontWeight: 700, letterSpacing: '.16em', textTransform: 'uppercase', color: 'var(--amber)', marginBottom: 10 }}>Rate context</div>
+              <p style={{ fontSize: 15, color: 'var(--mid)', lineHeight: 1.75 }}>{editorial.context}</p>
+            </div>
           </div>
         </div>
       </section>
@@ -152,21 +145,21 @@ export default function AffordPage({ data, faqs, slug }) {
       <section style={{ background: '#EDE8E0', paddingTop: 56, paddingBottom: 72 }}>
         <div className="container-sm">
           <p className="eyebrow" style={{ marginBottom: 12, color: 'var(--amber-dark)' }}>Run your numbers</p>
-          <h2 className="h-light" style={{ fontSize: 'clamp(22px,3.5vw,32px)', marginBottom: 32 }}>
-            Enter your actual payment to get your <em>Ownership Score</em>
+          <h2 className="h-light" style={{ fontSize: 'clamp(20px,3vw,30px)', marginBottom: 32 }}>
+            See your full <em>Ownership Score</em> with the new rate
           </h2>
-          <Calculator preloadPayment={paymentCeiling15} preloadSalary={salary} />
+          <Calculator preloadApr={newRate} />
         </div>
       </section>
 
       {/* Newsletter capture */}
-              <NewsletterCapture context="afford" slug={slug} />
+              <NewsletterCapture context="refinance" slug={slug} />
 
               {/* FAQs */}
       <section className="section" style={{ background: 'var(--dark-bg)' }}>
         <div className="container-sm">
           <h2 className="h-display" style={{ fontSize: 'clamp(22px,3.5vw,32px)', marginBottom: 40 }}>
-            Frequently Asked Questions — <em>{salaryLabel} salary</em>
+            Frequently Asked Questions - <em>{oldRate}% to {newRate}%</em>
           </h2>
           {faqs.map((f, i) => (
             <div key={i} className="faq-item">
@@ -180,13 +173,12 @@ export default function AffordPage({ data, faqs, slug }) {
       {/* Related */}
       <section className="section-sm" style={{ background: 'var(--dark-card)', borderTop: '1px solid var(--dark-border)' }}>
         <div className="container">
-          <p className="eyebrow" style={{ marginBottom: 16 }}>Other Salary Ranges</p>
+          <p className="eyebrow" style={{ marginBottom: 16 }}>Related Rate Comparisons</p>
           <div className="related-grid">
-            {related.map(s => (
-              <Link key={s} href={`/afford/${s}-salary`} className="related-card">
-                <div className="related-card-label">Car Affordability</div>
-                <div className="related-card-title">How much car on a {fmtS(s)} salary?</div>
-                <div style={{ fontSize: 13, color: 'var(--muted)', marginTop: 6 }}>Payment ceiling: {fmtS(Math.max(0, Math.round(monthlyTakeHome_static(s) * 0.15) - 175))}/mo</div>
+            {relatedCombos.map(c => (
+              <Link key={`${c.oldRate}-${c.newRate}`} href={`/refinance/${c.oldRate}-percent-to-${c.newRate}-percent`} className="related-card">
+                <div className="related-card-label">Refinance Analysis</div>
+                <div className="related-card-title">{c.oldRate}% to {c.newRate}% - how much you save</div>
               </Link>
             ))}
           </div>
@@ -194,12 +186,4 @@ export default function AffordPage({ data, faqs, slug }) {
       </section>
     </Layout>
   );
-}
-
-// Static helper for related cards (avoids importing full function on client)
-function monthlyTakeHome_static(s) {
-  let r;
-  if(s<40000)r=0.82;else if(s<60000)r=0.78;else if(s<80000)r=0.75;
-  else if(s<100000)r=0.72;else if(s<150000)r=0.70;else r=0.67;
-  return Math.round((s*r)/12);
 }

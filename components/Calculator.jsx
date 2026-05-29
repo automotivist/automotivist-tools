@@ -246,7 +246,7 @@ export default function Calculator({ preloadPayment, preloadSalary, preloadApr, 
             <input style={S.input} type="number" value={rate}
               onChange={e => setRate(e.target.value)} placeholder="7.5" step="0.1" />
           </Field>
-          <Field label={<span>Loan term — <span style={{ color: '#E8A020', fontWeight: 700 }}>{term} months</span></span>}>
+          <Field label={<span>Loan term - <span style={{ color: '#E8A020', fontWeight: 700 }}>{term} months</span></span>}>
             <input type="range" style={S.slider} min={24} max={84} step={12} value={term}
               onChange={e => setTerm(parseInt(e.target.value))} />
             <div style={S.ticks}>
@@ -262,7 +262,7 @@ export default function Calculator({ preloadPayment, preloadSalary, preloadApr, 
         {/* Running costs section */}
         <div style={{ marginTop: 20, paddingTop: 20, borderTop: '1px solid #E5E0D8' }}>
           <div style={{ fontSize: 11, fontFamily: 'var(--font-display)', fontWeight: 600, letterSpacing: '.18em', textTransform: 'uppercase', color: '#A8A49C', marginBottom: 14 }}>
-            Monthly running costs <span style={{ fontSize: 10, color: '#C8C4BC', fontWeight: 400, letterSpacing: '.05em', textTransform: 'none' }}> — pre-filled estimates, edit to match your actuals</span>
+            Monthly running costs <span style={{ fontSize: 10, color: '#C8C4BC', fontWeight: 400, letterSpacing: '.05em', textTransform: 'none' }}> - pre-filled estimates, edit to match your actuals</span>
           </div>
           <div style={S.grid2}>
             <Field label="Insurance" error={errors.insurance} prefix="$">
@@ -309,7 +309,7 @@ export default function Calculator({ preloadPayment, preloadSalary, preloadApr, 
           <div style={S.gateEye}>Unlock your full results + Ownership Score</div>
           <h3 style={S.gateHeadline}>See where this money could go instead</h3>
           <p style={S.gateSub}>
-            Enter your email to unlock your <strong style={{ color: '#17140D' }}>itemized true monthly cost</strong>, 10-year wealth impact across S&P 500, Bitcoin, real estate, gold, and HYSA — plus your <strong style={{ color: '#17140D' }}>Ownership Score</strong> you can download and share.
+            Enter your email to unlock your <strong style={{ color: '#17140D' }}>itemized true monthly cost</strong>, 10-year wealth impact across S&P 500, Bitcoin, real estate, gold, and HYSA - plus your <strong style={{ color: '#17140D' }}>Ownership Score</strong> you can download and share.
           </p>
           <div style={S.gateRow}>
             <input type="email" style={S.emailInput} value={email}
@@ -352,7 +352,7 @@ export default function Calculator({ preloadPayment, preloadSalary, preloadApr, 
             </table>
             <div style={{ background: 'rgba(176,52,40,.06)', border: '1px solid rgba(176,52,40,.15)', borderRadius: 10, padding: '14px 18px' }}>
               <p style={{ fontSize: 13, color: '#6A6560', lineHeight: 1.65, margin: 0 }}>
-                The dealership quoted you <strong style={{ color: '#17140D' }}>{fmt(results.pmt)}/month</strong>. The car costs <strong style={{ color: '#B03428' }}>{fmt(results.trueMo)}/month</strong>. That is a <strong style={{ color: '#B03428' }}>{fmt(results.trueMo - results.pmt)} gap</strong> — {Math.round(((results.trueMo - results.pmt) / results.pmt) * 100)}% more than the payment number they put in front of you.
+                The dealership quoted you <strong style={{ color: '#17140D' }}>{fmt(results.pmt)}/month</strong>. The car costs <strong style={{ color: '#B03428' }}>{fmt(results.trueMo)}/month</strong>. That is a <strong style={{ color: '#B03428' }}>{fmt(results.trueMo - results.pmt)} gap</strong> - {Math.round(((results.trueMo - results.pmt) / results.pmt) * 100)}% more than the payment number they put in front of you.
               </p>
             </div>
           </div>
@@ -360,8 +360,8 @@ export default function Calculator({ preloadPayment, preloadSalary, preloadApr, 
           {/* Income bars */}
           <div style={S.card}>
             <div style={S.sectionLabel}>What this car takes from your income</div>
-            <BarRow label="Payment + insurance only" amount={fmt(results.moTot)} pct={Math.min(results.ip, 100)} note={fmtP(results.ip) + ' of gross monthly income — the number they quote'} color="#CC3232" />
-            <BarRow label="True all-in monthly cost" amount={fmt(results.trueMo)} pct={Math.min((results.trueMo / results.moInc) * 100, 100)} note={fmtP((results.trueMo / results.moInc) * 100) + ' of gross monthly income — the real number'} color="#E8A020" />
+            <BarRow label="Payment + insurance only" amount={fmt(results.moTot)} pct={Math.min(results.ip, 100)} note={fmtP(results.ip) + ' of gross monthly income - the number they quote'} color="#CC3232" />
+            <BarRow label="True all-in monthly cost" amount={fmt(results.trueMo)} pct={Math.min((results.trueMo / results.moInc) * 100, 100)} note={fmtP((results.trueMo / results.moInc) * 100) + ' of gross monthly income - the real number'} color="#E8A020" />
             <BarRow label="Gross monthly income" amount={fmt(results.moInc)} pct={100} note="100% of monthly gross income" color="#4DC84D" />
           </div>
 
@@ -373,11 +373,11 @@ export default function Calculator({ preloadPayment, preloadSalary, preloadApr, 
             <p style={{ fontSize: 13, color: 'var(--light-muted, #6A6560)', marginBottom: 14, lineHeight: 1.6 }}>
               What your monthly payment invested instead would be worth in 10 years.
             </p>
-            <AssetRow name="S&P 500 Index" rate="10.5% avg annual — 50-year historical" value={fmt(results.sp10)} top badge="BEST RISK-ADJUSTED" />
-            <AssetRow name="Bitcoin" rate="~40% avg annual — extreme volatility" value={fmt(results.btc)} />
+            <AssetRow name="S&P 500 Index" rate="10.5% avg annual - 50-year historical" value={fmt(results.sp10)} top badge="BEST RISK-ADJUSTED" />
+            <AssetRow name="Bitcoin" rate="~40% avg annual - extreme volatility" value={fmt(results.btc)} />
             <AssetRow name="Real Estate" rate="~8% avg annual incl. appreciation" value={fmt(results.re)} />
-            <AssetRow name="Gold / Silver" rate="~7.5% avg annual — inflation hedge" value={fmt(results.gold)} />
-            <AssetRow name="High-Yield Savings (HYSA)" rate="4.5% — zero risk, current rate" value={fmt(results.hy)} />
+            <AssetRow name="Gold / Silver" rate="~7.5% avg annual - inflation hedge" value={fmt(results.gold)} />
+            <AssetRow name="High-Yield Savings (HYSA)" rate="4.5% - zero risk, current rate" value={fmt(results.hy)} />
             <div style={S.insightBox}>
               <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--light-text, #17140D)' }}>
                 Every dollar sent to a lender over this loan creates a{' '}

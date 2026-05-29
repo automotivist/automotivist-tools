@@ -1,4 +1,4 @@
-// pages/home.js — The Automotivist brand homepage
+// pages/home.js - The Automotivist brand homepage
 // Served at automotivist.com via hostname middleware
 // Proxies newsletter paths to Beehiiv via next.config.mjs rewrites
 import Head from 'next/head';
@@ -7,17 +7,17 @@ import { useState } from 'react';
 import { BEEHIIV_PUB_ID } from '../lib/calculations';
 
 const STATS = [
-  { value: '$738',  label: 'Average US car payment — Q4 2025' },
+  { value: '$738',  label: 'Average US car payment - Q4 2025' },
   { value: '32%',   label: 'Of take-home the average payment takes' },
   { value: '$1,020', label: 'What the average car actually costs monthly' },
 ];
 
 const BULLETS = [
-  'The real monthly cost of popular cars — not the dealer number',
+  'The real monthly cost of popular cars - not the dealer number',
   'Car payment math broken down by your actual income',
   'When to refinance, when to walk, when to negotiate',
   'The wealth cost of every car decision, in plain numbers',
-  'Scenarios from real ownership situations — not theory',
+  'Scenarios from real ownership situations - not theory',
 ];
 
 const TOOLS = [
@@ -70,11 +70,11 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>The Automotivist — The car math no one shows you</title>
+        <title>The Automotivist - The car math no one shows you</title>
         <meta name="description" content="Your car costs more than the payment. Every Friday, free: the real numbers behind car ownership, payments, and the wealth decisions hiding inside every car choice." />
         <meta name="google-site-verification" content="t33PyQgKjpuFE_d3krZETe3uWmponMWJBhUP6gyGRkw" />
         <link rel="canonical" href="https://automotivist.com" />
-        <meta property="og:title" content="The Automotivist — The car math no one shows you" />
+        <meta property="og:title" content="The Automotivist - The car math no one shows you" />
         <meta property="og:description" content="Your car costs more than the payment. Every Friday, free." />
         <meta property="og:url" content="https://automotivist.com" />
         <meta name="twitter:card" content="summary_large_image" />
@@ -124,7 +124,7 @@ export default function Home() {
       <section style={{ padding: '96px 24px 80px', textAlign: 'center' }}>
         <div style={{ maxWidth: 760, margin: '0 auto' }}>
           <div style={{ fontFamily: 'Barlow Condensed', fontSize: 12, fontWeight: 700, letterSpacing: '.22em', textTransform: 'uppercase', color: '#E8A020', marginBottom: 20 }}>
-            Free Newsletter — Every Friday
+            Free Newsletter - Every Friday
           </div>
           <h1 style={{ fontFamily: 'Barlow Condensed', fontSize: 'clamp(48px, 9vw, 80px)', fontWeight: 800, lineHeight: 1.0, letterSpacing: '.01em', color: '#fff', marginBottom: 24 }}>
             Your car costs more<br />than{' '}
@@ -182,7 +182,7 @@ export default function Home() {
       {/* What you get */}
       <section style={{ padding: '80px 24px' }}>
         <div style={{ maxWidth: 680, margin: '0 auto' }}>
-          <div style={{ fontFamily: 'Barlow Condensed', fontSize: 11, fontWeight: 700, letterSpacing: '.2em', textTransform: 'uppercase', color: '#E8A020', marginBottom: 16 }}>Every Friday — Free</div>
+          <div style={{ fontFamily: 'Barlow Condensed', fontSize: 11, fontWeight: 700, letterSpacing: '.2em', textTransform: 'uppercase', color: '#E8A020', marginBottom: 16 }}>Every Friday - Free</div>
           <h2 style={{ fontFamily: 'Barlow Condensed', fontSize: 'clamp(28px, 5vw, 42px)', fontWeight: 800, color: '#fff', marginBottom: 32, lineHeight: 1.1 }}>
             The math most people<br /><span style={{ color: '#E8A020' }}>never run before they buy.</span>
           </h2>
@@ -247,7 +247,7 @@ export default function Home() {
           </blockquote>
           <p style={{ fontSize: 15, color: '#444', lineHeight: 1.75 }}>
             Son of a taxi driver. Financed a G35 to impress people who do not remember the car.
-            Paid off a Cayenne early — expensive lesson. Now drives a Tesla Model Y on rideshare
+            Paid off a Cayenne early - expensive lesson. Now drives a Tesla Model Y on rideshare
             with home solar. Still saving for a 911 GT3. 90% Bitcoin conviction.
             This newsletter is the math I wish I had run earlier.
           </p>

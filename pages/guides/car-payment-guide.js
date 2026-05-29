@@ -1,5 +1,5 @@
 // pages/guides/car-payment-guide.js
-// Hub page: The 15% car payment rule — authoritative guide
+// Hub page: The 15% car payment rule - authoritative guide
 // Links to all /afford/ salary pages and top /car-payment/ pages
 import Layout from '../../components/Layout';
 import NewsletterCapture from '../../components/NewsletterCapture';
@@ -10,11 +10,11 @@ import { IMAGES, unsplashUrl, fallbackUrl } from '../../lib/page-images';
 const SAMPLE_SALARIES = [40000,50000,60000,75000,90000,100000,120000,150000];
 
 const FAQS = [
-  { q: 'What is the 15% car payment rule?', a: 'The 15% rule states that your total monthly car costs — payment plus insurance — should not exceed 15% of your gross monthly income. On a $75,000 salary, that is about $937/month for payment and insurance combined. If insurance costs $175/month, your payment ceiling is around $762/month.' },
-  { q: 'Is the 15% rule based on gross or take-home income?', a: 'Most versions of the rule use take-home (after-tax) income, which is more conservative. On a $75,000 salary, your take-home is roughly $5,250/month. 15% of that is $787/month — the ceiling for payment plus insurance combined.' },
+  { q: 'What is the 15% car payment rule?', a: 'The 15% rule states that your total monthly car costs - payment plus insurance - should not exceed 15% of your gross monthly income. On a $75,000 salary, that is about $937/month for payment and insurance combined. If insurance costs $175/month, your payment ceiling is around $762/month.' },
+  { q: 'Is the 15% rule based on gross or take-home income?', a: 'Most versions of the rule use take-home (after-tax) income, which is more conservative. On a $75,000 salary, your take-home is roughly $5,250/month. 15% of that is $787/month - the ceiling for payment plus insurance combined.' },
   { q: 'What happens if you go over the 15% rule?', a: 'Nothing breaks immediately, but the math works against you. Every dollar above the ceiling is a dollar that cannot go toward housing, retirement, or savings. Over a 5-year loan, $100/month over the ceiling is $6,000 you could not invest. At S&P 500 historical returns, that $6,000 compounds to over $12,000 in 10 years.' },
-  { q: 'Should I use the 10% or 15% rule for car payments?', a: 'Use 10% if you have high-interest debt, are behind on retirement savings, or live in a high cost-of-living city. Use 15% as the absolute ceiling if your finances are otherwise healthy. The 15% ceiling exists to protect every other financial priority — not to tell you what to spend.' },
-  { q: 'How much car can I afford on a $60,000 salary?', a: 'On $60,000/year, monthly take-home is roughly $3,900. The 15% ceiling is $585/month for payment and insurance combined. After insurance, your payment ceiling is around $410/month — which finances a vehicle priced near $21,000 at 7.5% APR over 60 months.' },
+  { q: 'Should I use the 10% or 15% rule for car payments?', a: 'Use 10% if you have high-interest debt, are behind on retirement savings, or live in a high cost-of-living city. Use 15% as the absolute ceiling if your finances are otherwise healthy. The 15% ceiling exists to protect every other financial priority - not to tell you what to spend.' },
+  { q: 'How much car can I afford on a $60,000 salary?', a: 'On $60,000/year, monthly take-home is roughly $3,900. The 15% ceiling is $585/month for payment and insurance combined. After insurance, your payment ceiling is around $410/month - which finances a vehicle priced near $21,000 at 7.5% APR over 60 months.' },
 ];
 
 const faqSchema = {
@@ -26,7 +26,7 @@ const faqSchema = {
 export default function CarPaymentGuide() {
   return (
     <Layout
-      title="The 15% Car Payment Rule — Complete Guide by Salary"
+      title="The 15% Car Payment Rule - Complete Guide by Salary"
       description="The 15% rule: your car payment should not exceed 15% of monthly take-home. The national average is 32%. Exact ceilings for every salary from $40K to $200K."
       canonical="https://tools.automotivist.com/guides/car-payment-guide"
       schemas={[faqSchema]}
@@ -35,12 +35,12 @@ export default function CarPaymentGuide() {
         <div className="container-sm">
           <p className="eyebrow" style={{ marginBottom: 12 }}>Complete Guide</p>
           <h1 className="h-display" style={{ fontSize: 'clamp(36px,6vw,58px)', marginBottom: 24 }}>
-            The 15% car payment rule — <em>what it actually means</em>
+            The 15% car payment rule - <em>what it actually means</em>
           </h1>
           <div className="answer-block">
             <div className="answer-verdict">The Rule</div>
             <div className="answer-text">
-              Your total monthly car costs — <strong>payment plus insurance</strong> — should not exceed <strong>15% of your monthly take-home pay</strong>. Most people apply this to the payment alone and wonder why they still feel squeezed. The payment is only part of the cost.
+              Your total monthly car costs - <strong>payment plus insurance</strong> - should not exceed <strong>15% of your monthly take-home pay</strong>. Most people apply this to the payment alone and wonder why they still feel squeezed. The payment is only part of the cost.
             </div>
           </div>
           <img
@@ -51,7 +51,7 @@ export default function CarPaymentGuide() {
             loading="eager"
           />
           <div style={{ fontFamily: 'var(--font-display)', fontSize: 11, color: 'var(--muted)', letterSpacing: '.1em', marginTop: 12 }}>
-            DATA UPDATED: {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} — Experian Q4 2025, Bankrate Q1 2026
+            DATA UPDATED: {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} - Experian Q4 2025, Bankrate Q1 2026
           </div>
         </div>
       </section>
@@ -96,11 +96,31 @@ export default function CarPaymentGuide() {
             Why the ceiling <em>exists</em>
           </h2>
           <p style={{ fontSize: 17, color: 'var(--mid)', lineHeight: 1.75, marginBottom: 16 }}>
-            The 15% rule is not about the car. It is about everything the car cannot be. Housing, retirement, savings, and debt payoff all compete for the same take-home. A car payment above 15% does not just stretch a budget — it structurally prevents wealth building at the margins that compound the most.
+            The 15% rule is not about the car. It is about everything the car cannot be. Housing, retirement, savings, and debt payoff all compete for the same take-home. A car payment above 15% does not just stretch a budget - it structurally prevents wealth building at the margins that compound the most.
           </p>
           <p style={{ fontSize: 17, color: 'var(--mid)', lineHeight: 1.75 }}>
-            The average American car payment hit $738/month in Q4 2025 (Experian). On a median household income of $80,000, that is 23% of take-home. The rule is broken at scale — which is why most households feel permanently squeezed despite having jobs and income growth.
+            The average American car payment hit $738/month in Q4 2025 (Experian). On a median household income of $80,000, that is 23% of take-home. The rule is broken at scale - which is why most households feel permanently squeezed despite having jobs and income growth.
           </p>
+        </div>
+      </section>
+
+      {/* Personal perspective section */}
+      <section className="section-sm" style={{ background: 'var(--dark-card)', borderTop: '1px solid var(--dark-border)' }}>
+        <div className="container-sm">
+          <h2 className="h-display" style={{ fontSize: 'clamp(20px,3vw,28px)', marginBottom: 20 }}>
+            Why I built this calculator
+          </h2>
+          <div style={{ borderLeft: '3px solid var(--amber)', paddingLeft: 24 }}>
+            <p style={{ fontSize: 16, color: 'var(--mid)', lineHeight: 1.8, marginBottom: 16 }}>
+              My first real car was a G35 coupe. I financed it to impress people. The people I was trying to impress do not remember the car. The payment lasted 60 months. The opportunity cost - what that money would have been worth invested instead - is something I calculated years later and wish I had run before I signed.
+            </p>
+            <p style={{ fontSize: 16, color: 'var(--mid)', lineHeight: 1.8, marginBottom: 16 }}>
+              The 15% rule was not something I learned from a financial advisor. I learned it by paying off a Porsche Cayenne early and watching what happened to my cash flow afterward. The freedom created by a car payment disappearing from your budget is disproportionate to the dollar amount. It changes what is possible.
+            </p>
+            <p style={{ fontSize: 16, color: 'var(--mid)', lineHeight: 1.8 }}>
+              This guide exists because the dealership does not give you a ceiling. They give you a monthly payment that clears your checking account. Those are not the same number. Someone needs to give you the ceiling. That is what this is.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -126,11 +146,11 @@ export default function CarPaymentGuide() {
         </div>
       </section>
 
-      {/* Affordability by salary — spoke links */}
+      {/* Affordability by salary - spoke links */}
       <section className="section-sm" style={{ background: 'var(--dark-bg)', borderTop: '1px solid var(--dark-border)' }}>
         <div className="container">
           <h2 className="h-display" style={{ fontSize: 'clamp(20px,3vw,28px)', marginBottom: 24 }}>
-            Car affordability — <em>by salary</em>
+            Car affordability - <em>by salary</em>
           </h2>
           <div className="related-grid">
             {AFFORD_SALARIES.map(s => (
