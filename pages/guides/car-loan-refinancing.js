@@ -22,7 +22,7 @@ const faqSchema = {
 export default function RefiGuide() {
   return (
     <Layout
-      title="Car Loan Refinancing Guide - When to Refi and How Much You Save"
+      title="Car Loan Refinancing: How to Cut Your Rate and Save $2,000-4,000 on Your Loan"
       description="Refinancing from 10% to 7% saves $45-65/month on a $25K balance - with no fees and 24-hour approval. When to refinance, how much you save, and how to qualify."
       canonical="https://tools.automotivist.com/guides/car-loan-refinancing"
       schemas={[faqSchema]}

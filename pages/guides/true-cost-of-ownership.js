@@ -34,7 +34,7 @@ const featuredVehicles = VEHICLES.slice(0, 12);
 export default function TrueCostGuide() {
   return (
     <Layout
-      title="True Cost of Car Ownership - What Your Car Actually Costs Per Month"
+      title="True Cost of Car Ownership: The Average Car Costs $1,020/Month (Not $738)"
       description="The average car costs $1,020/month all-in. The average payment is $738. That $282 gap is what dealers never show you. Full breakdown for 35 popular vehicles."
       canonical="https://tools.automotivist.com/guides/true-cost-of-ownership"
       schemas={[faqSchema]}

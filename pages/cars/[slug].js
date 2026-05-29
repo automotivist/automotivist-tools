@@ -54,7 +54,7 @@ export default function CarPage({ vehicle, cost, faqs }) {
 
   return (
     <Layout
-      title={`${year} ${make} ${model} True Monthly Cost — What It Really Costs to Own`}
+      title={`${year} ${make} ${model}: $${Math.round(costs.trueMonthly)}/Month All-In Cost (Not Just the Payment)`}
       description={`The ${year} ${make} ${model} costs ${fmtS(trueMo)}/month all-in — ${fmtS(overPayment)} more than the ${fmtS(payment)} payment the dealer quotes. Insurance, fuel, maintenance, and depreciation all counted.`}
       canonical={`https://tools.automotivist.com/cars/${vehicle.slug}`}
       schemas={[faqSchema]}

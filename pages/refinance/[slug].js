@@ -45,7 +45,7 @@ export default function RefinancePage({ data, faqs, slug, oldRate, newRate }) {
 
   return (
     <Layout
-      title={`Refinance Car Loan from ${oldRate}% to ${newRate}% — How Much Do You Save?`}
+      title={`Refinancing from ${oldRate}% to ${newRate}%: Save ${fmtS(sample25k.monthlySaving)}/Month ($${Math.round(sample25k.totalSaving/1000)}K Total)`}
       description={`Dropping from ${oldRate}% to ${newRate}% saves ${fmtS(sample25k.monthlySaving)}/month and ${fmtS(sample25k.totalSaving)} total on a $25,000 balance. No fees to refinance. See the full savings breakdown by loan amount.`}
       canonical={`https://tools.automotivist.com/refinance/${slug}`}
       schemas={[faqSchema]}
