@@ -4,6 +4,7 @@
 import Head from 'next/head';
 import Layout from '../../components/Layout';
 import NewsletterCapture from '../../components/NewsletterCapture';
+import CrossLinks from '../../components/CrossLinks';
 import Calculator from '../../components/Calculator';
 import Link from 'next/link';
 import { VEHICLES, getVehicle, vehicleTrueCost, vehicleFAQs, vehicleEditorial } from '../../lib/vehicles-data';
@@ -228,6 +229,7 @@ export default function CarPage({ vehicle, cost, faqs }) {
           </div>
         </div>
       </section>
+      <CrossLinks type="vehicle" context={{ vehicle }} />
     </Layout>
   );
 }

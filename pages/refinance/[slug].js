@@ -2,6 +2,7 @@
 // "Refinancing a car loan from X% to Y%" — 18 pages
 import Layout from '../../components/Layout';
 import NewsletterCapture from '../../components/NewsletterCapture';
+import CrossLinks from '../../components/CrossLinks';
 import Calculator from '../../components/Calculator';
 import Link from 'next/link';
 import {
@@ -184,6 +185,7 @@ export default function RefinancePage({ data, faqs, slug, oldRate, newRate }) {
           </div>
         </div>
       </section>
+      <CrossLinks type="refinance" context={{ oldRate, newRate }} />
     </Layout>
   );
 }

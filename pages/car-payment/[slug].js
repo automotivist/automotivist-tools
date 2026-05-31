@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Layout from '../../components/Layout';
 import Calculator from '../../components/Calculator';
 import NewsletterCapture from '../../components/NewsletterCapture';
+import CrossLinks from '../../components/CrossLinks';
 import Image from 'next/image';
 import { getPaymentImage, unsplashUrl, fallbackUrl } from '../../lib/page-images';
 import {
@@ -433,6 +434,7 @@ export default function PaymentPage({ payment, salary, data }) {
           </div>
         </div>
       </div>
+      <CrossLinks type="car-payment" context={{ payment, salary }} />
     </Layout>
   );
 }

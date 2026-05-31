@@ -3,6 +3,7 @@
 // 17 pages covering $40K-$200K salaries
 import Layout from '../../components/Layout';
 import NewsletterCapture from '../../components/NewsletterCapture';
+import CrossLinks from '../../components/CrossLinks';
 import Calculator from '../../components/Calculator';
 import Link from 'next/link';
 import {
@@ -201,6 +202,7 @@ export default function AffordPage({ data, faqs, slug, editorial }) {
           </div>
         </div>
       </section>
+      <CrossLinks type="afford" context={{ salary: data.salary }} />
     </Layout>
   );
 }

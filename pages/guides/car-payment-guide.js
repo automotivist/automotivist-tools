@@ -5,6 +5,7 @@ import Layout from '../../components/Layout';
 import NewsletterCapture from '../../components/NewsletterCapture';
 import Link from 'next/link';
 import { AFFORD_SALARIES, fmtDollar, monthlyTakeHome, threshold15 } from '../../lib/calculations';
+import { VEHICLES } from '../../lib/vehicles-data';
 import { IMAGES, unsplashUrl, fallbackUrl } from '../../lib/page-images';
 
 const SAMPLE_SALARIES = [40000,50000,60000,75000,90000,100000,120000,150000];
@@ -158,6 +159,49 @@ export default function CarPaymentGuide() {
                 <div className="related-card-label">Affordability Analysis</div>
                 <div className="related-card-title">How much car on {fmtDollar(s)}?</div>
                 <div style={{ fontSize: 13, color: 'var(--muted)', marginTop: 6 }}>Payment ceiling: {fmtDollar(Math.max(0, threshold15(s) - 175))}/mo</div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Payment analysis pages — top combinations by search volume */}
+      <section className="section-sm" style={{ borderTop: '1px solid var(--dark-border)' }}>
+        <div className="container">
+          <h2 className="h-display" style={{ fontSize: 'clamp(20px,3vw,28px)', marginBottom: 8 }}>Payment analysis</h2>
+          <p style={{ color: 'var(--muted)', fontSize: 15, marginBottom: 24 }}>Is your specific payment too high? Find your combination.</p>
+          <div className="related-grid">
+            {[
+              [400,50000],[400,60000],[400,75000],
+              [500,60000],[500,75000],[500,90000],
+              [600,65000],[600,75000],[600,90000],
+              [700,75000],[700,90000],[700,100000],
+              [800,90000],[800,100000],[800,120000],
+              [900,100000],[900,120000],[1000,120000],
+            ].map(([p,s]) => (
+              <Link key={`${p}-${s}`} href={`/car-payment/${p}-per-month-${s}-salary`} className="related-card">
+                <div className="related-card-label">Payment Analysis</div>
+                <div className="related-card-title">{fmtDollar(p)}/mo on {fmtDollar(s)}</div>
+                <div style={{ fontSize: 13, color: 'var(--muted)', marginTop: 6 }}>
+                  {Math.round(p / (s * 0.72 / 12) * 100)}% of take-home
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Vehicle true cost pages */}
+      <section className="section-sm" style={{ background: 'var(--dark-bg)', borderTop: '1px solid var(--dark-border)' }}>
+        <div className="container">
+          <h2 className="h-display" style={{ fontSize: 'clamp(20px,3vw,28px)', marginBottom: 8 }}>True monthly cost by vehicle</h2>
+          <p style={{ color: 'var(--muted)', fontSize: 15, marginBottom: 24 }}>The payment is only part of what each vehicle costs per month.</p>
+          <div className="related-grid">
+            {VEHICLES.slice(0, 18).map(v => (
+              <Link key={v.slug} href={`/cars/${v.slug}`} className="related-card">
+                <div className="related-card-label">True Cost</div>
+                <div className="related-card-title">{v.year} {v.make} {v.model}</div>
+                <div style={{ fontSize: 13, color: 'var(--muted)', marginTop: 6 }}>MSRP from {fmtDollar(v.msrp)}</div>
               </Link>
             ))}
           </div>
