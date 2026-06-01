@@ -22,7 +22,7 @@ export async function getStaticProps({ params }) {
   if (!vehicle) return { notFound: true };
   const cost = vehicleTrueCost(vehicle);
   const faqs = vehicleFAQs(vehicle);
-  return { props: { vehicle, cost, faqs } };
+  return { props: { vehicle, cost, faqs }, revalidate: 2592000 };
 }
 
 export default function CarPage({ vehicle, cost, faqs }) {

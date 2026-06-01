@@ -4,7 +4,7 @@
 import Layout from '../../components/Layout';
 import NewsletterCapture from '../../components/NewsletterCapture';
 import Link from 'next/link';
-import { AFFORD_SALARIES, fmtDollar, monthlyTakeHome, threshold15 } from '../../lib/calculations';
+import { AFFORD_SALARIES, fmtDollar, monthlyTakeHome, threshold15, DATA_UPDATED } from '../../lib/calculations';
 import { VEHICLES } from '../../lib/vehicles-data';
 import { IMAGES, unsplashUrl, fallbackUrl } from '../../lib/page-images';
 
@@ -52,7 +52,7 @@ export default function CarPaymentGuide() {
             loading="eager"
           />
           <div style={{ fontFamily: 'var(--font-display)', fontSize: 11, color: 'var(--muted)', letterSpacing: '.1em', marginTop: 12 }}>
-            DATA UPDATED: {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} - Experian Q4 2025, Bankrate Q1 2026
+            DATA UPDATED: {DATA_UPDATED} — Experian, Bankrate
           </div>
         </div>
       </section>

@@ -18,7 +18,7 @@ export async function getStaticProps({ params }) {
   if (!parsed) return { notFound: true };
   const data = refiData(parsed.oldRate, parsed.newRate);
   const faqs = refiFAQs(parsed.oldRate, parsed.newRate);
-  return { props: { data, faqs, slug: params.slug, oldRate: parsed.oldRate, newRate: parsed.newRate } };
+  return { props: { data, faqs, slug: params.slug, oldRate: parsed.oldRate, newRate: parsed.newRate }, revalidate: 2592000 };
 }
 
 export default function RefinancePage({ data, faqs, slug, oldRate, newRate }) {

@@ -508,5 +508,6 @@ export async function getStaticProps({ params }) {
 
   return {
     props: { payment, salary, data },
+    revalidate: 2592000, // 30 days — pages auto-regenerate with fresh data
   };
 }

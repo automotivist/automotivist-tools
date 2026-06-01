@@ -5,6 +5,7 @@ import NewsletterCapture from '../../components/NewsletterCapture';
 import Link from 'next/link';
 import { VEHICLES, vehicleTrueCost } from '../../lib/vehicles-data';
 import { IMAGES, unsplashUrl, fallbackUrl } from '../../lib/page-images';
+import { DATA_UPDATED } from '../../lib/calculations';
 
 const COST_COMPONENTS = [
   { name: 'Loan payment', note: 'What the dealership quotes. 60% of the real number.', monthly: null },
@@ -59,7 +60,7 @@ export default function TrueCostGuide() {
             loading="eager"
           />
           <div style={{ fontFamily: 'var(--font-display)', fontSize: 11, color: 'var(--muted)', letterSpacing: '.1em', marginTop: 12 }}>
-            DATA UPDATED: {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} - AAA Driving Costs 2024, KBB/Cox Automotive
+            DATA UPDATED: {DATA_UPDATED} — AAA, KBB, Cox Automotive
           </div>
         </div>
       </section>

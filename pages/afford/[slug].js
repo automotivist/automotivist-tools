@@ -21,7 +21,7 @@ export async function getStaticProps({ params }) {
   const data = affordData(parsed.salary);
   const faqs = affordFAQs(parsed.salary);
   const editorial = affordEditorial(parsed.salary);
-  return { props: { data, faqs, slug: params.slug, editorial } };
+  return { props: { data, faqs, slug: params.slug, editorial }, revalidate: 2592000 };
 }
 
 export default function AffordPage({ data, faqs, slug, editorial }) {
