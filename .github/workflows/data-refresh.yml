@@ -1,0 +1,91 @@
+name: Automatic Data Refresh
+on:
+  schedule:
+    - cron: '0 14 1 * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+  issues: write
+jobs:
+  refresh-data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests beautifulsoup4 lxml -q
+      - name: Fetch data sources
+        env:
+          EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+        run: |
+          python3 - << 'PYEOF'
+          import os, json, re, requests
+          from bs4 import BeautifulSoup
+          from datetime import datetime
+          R, F = {}, []
+          MONTH = datetime.now().strftime("%B %Y")
+          def ok(k, v, s): R[k] = v; print(f"OK {k}={v}")
+          def err(k, e): F.append({"key": k, "reason": str(e)}); print(f"ERR {k}: {e}")
+          try:
+            url = f"https://api.eia.gov/v2/petroleum/pri/gnd/data/?api_key={os.environ['EIA_API_KEY']}&frequency=weekly&data[0]=value&facets[series][]=EMM_EPMRR_PTE_NUS_DPG&sort[0][column]=period&sort[0][direction]=desc&length=1&file_type=json"
+            ok("FUEL_PRICE_PER_GALLON", round(float(requests.get(url,timeout=15).json()["response"]["data"][0]["value"]),2), "EIA")
+          except Exception as e: err("FUEL_PRICE_PER_GALLON", e)
+          try:
+            url = f"https://api.stlouisfed.org/fred/series/observations?api_key={os.environ['FRED_API_KEY']}&series_id=TERMCBAUTO48NS&sort_order=desc&limit=1&file_type=json"
+            r48 = float(requests.get(url,timeout=15).json()["observations"][0]["value"])
+            ok("AVG_RATE_NEW_60MO", round(r48+0.4,1), "FRED"); ok("AVG_RATE_REFI_60MO", round(r48-0.3,1), "FRED")
+          except Exception as e: err("AVG_RATE_NEW_60MO", e); err("AVG_RATE_REFI_60MO", e)
+          try:
+            h = {"User-Agent": "Mozilla/5.0"}
+            txt = BeautifulSoup(requests.get("https://www.bankrate.com/insurance/car/average-cost-of-car-insurance/",headers=h,timeout=20).text,"lxml").get_text(" ")
+            m = re.search(r"\$(\d{3,4})\s*(?:per\s*month|monthly)", txt, re.I)
+            if not m:
+              m = re.search(r"\$(\d{1,2},\d{3})\s*(?:per\s*year|annually)", txt, re.I)
+              v = round(int(m.group(1).replace(",",""))/12) if m else None
+            else: v = int(m.group(1))
+            if v and 100 <= v <= 400: ok("AVG_INSURANCE_MONTHLY", v, "Bankrate")
+            else: raise ValueError(f"no valid insurance figure found")
+          except Exception as e: err("AVG_INSURANCE_MONTHLY", e)
+          json.dump({"results": R, "failures": F, "month": MONTH}, open("/tmp/dr.json","w"))
+          PYEOF
+      - name: Update data-constants.js
+        run: |
+          python3 - << 'PYEOF'
+          import json, re
+          from datetime import datetime
+          d = json.load(open("/tmp/dr.json"))
+          R, MONTH = d["results"], d["month"]
+          QUARTER = f"Q{(datetime.now().month-1)//3+1} {datetime.now().year}"
+          with open("lib/data-constants.js") as f: c = f.read()
+          def upd(c,n,v,note):
+            p = rf"(export const {re.escape(n)}\s*=\s*)[^;]+;[^\n]*"
+            r = f"$1'{v}';  // {note}" if isinstance(v,str) else f"$1{v};  // {note}"
+            return re.sub(p,r,c)
+          c = upd(c,"DATA_UPDATED",MONTH,"auto-updated")
+          for k,note in [("FUEL_PRICE_PER_GALLON",f"EIA {MONTH}"),("AVG_RATE_NEW_60MO",f"FRED {QUARTER}"),("AVG_RATE_REFI_60MO",f"FRED {QUARTER}"),("AVG_INSURANCE_MONTHLY",f"Bankrate {QUARTER}")]:
+            if k in R: c = upd(c,k,R[k],note)
+          open("lib/data-constants.js","w").write(c)
+          PYEOF
+      - name: Commit if changed
+        run: |
+          git config user.name "automotivist-data-bot"
+          git config user.email "data@automotivist.com"
+          git add lib/data-constants.js
+          git diff --staged --quiet || (git commit -m "Auto data refresh: $(date '+%B %Y')" && git push)
+      - name: Issue for failures
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let d; try { d = JSON.parse(fs.readFileSync('/tmp/dr.json')); } catch { return; }
+            if (!d.failures?.length) return;
+            const q = 'Q' + Math.ceil((new Date().getMonth()+1)/3) + ' ' + new Date().getFullYear();
+            const body = '## ' + q + ' Data Refresh — ' + d.failures.length + ' source(s) failed\n\n' + d.failures.map(f=>'- [ ] **'+f.key+'**: '+f.reason).join('\n') + '\n\n`node scripts/update-data.mjs && git add lib/data-constants.js && git commit -m "Data patch" && git push`';
+            const issues = (await github.rest.issues.listForRepo({owner:context.repo.owner,repo:context.repo.repo,state:'open',labels:'data-refresh'})).data;
+            if (issues.find(i=>i.title.includes(q))) return;
+            await github.rest.issues.create({owner:context.repo.owner,repo:context.repo.repo,title:'Data refresh partial — '+d.failures.length+' sources need manual update ('+q+')',body,labels:['data-refresh']});
