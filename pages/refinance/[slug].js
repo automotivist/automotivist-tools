@@ -6,7 +6,7 @@ import CrossLinks from '../../components/CrossLinks';
 import Calculator from '../../components/Calculator';
 import Link from 'next/link';
 import {
-  getAllRefiPaths, parseRefiSlug, refiData, refiFAQs, refiSavings, REFI_COMBOS, refiContext
+  getAllRefiPaths, parseRefiSlug, refiData, refiFAQs, refiSavings, REFI_COMBOS, refiContext, AVG_RATE_REFI_60MO
 } from '../../lib/calculations';
 
 export async function getStaticPaths() {
@@ -47,7 +47,7 @@ export default function RefinancePage({ data, faqs, slug, oldRate, newRate }) {
   return (
     <Layout
       title={`Refinancing from ${oldRate}% to ${newRate}%: Save ${fmtS(sample25k.monthlySaving)}/Month ($${Math.round(sample25k.totalSaving/1000)}K Total)`}
-      description={`Dropping from ${oldRate}% to ${newRate}% saves ${fmtS(sample25k.monthlySaving)}/month and ${fmtS(sample25k.totalSaving)} total on a $25,000 balance. No fees to refinance. See the full savings breakdown by loan amount.`}
+      description={`Dropping from ${oldRate}% to ${newRate}% saves ${fmtS(sample25k.monthlySaving)}/month and ${fmtS(sample25k.totalSaving)} total on a $25,000 balance. Bankrate national average for refi at good credit: ${AVG_RATE_REFI_60MO}%. Full savings breakdown by loan amount.`}
       canonical={`https://tools.automotivist.com/refinance/${slug}`}
       schemas={[faqSchema]}
     >
