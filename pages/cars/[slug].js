@@ -55,8 +55,8 @@ export default function CarPage({ vehicle, cost, faqs }) {
 
   return (
     <Layout
-      title={`${year} ${make} ${model}: $${Math.round(trueMo)}/Month All-In (Not Just the Payment)`}
-      description={`The ${year} ${make} ${model} costs ${fmtS(trueMo)}/month all-in — ${fmtS(overPayment)} more than the ${fmtS(payment)} payment the dealer quotes. Insurance, fuel, maintenance, and depreciation all counted.`}
+      title={`${year} ${make} ${model}: True Cost to Own, Monthly Payment & KBB Value`}
+      description={`Real 5-year cost of a ${year} ${make} ${model} — payment, insurance, depreciation, maintenance. AAA + Edmunds + KBB data, with a free affordability calculator.`}
       canonical={`https://tools.automotivist.com/cars/${vehicle.slug}`}
       schemas={[faqSchema]}
     >
