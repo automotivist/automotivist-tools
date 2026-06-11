@@ -8,7 +8,7 @@ import Calculator from '../../components/Calculator';
 import Link from 'next/link';
 import {
   getAllAffordPaths, parseAffordSlug, affordData, affordFAQs,
-  AFFORD_SALARIES, fmtDollar, affordEditorial
+  AFFORD_SALARIES, fmtDollar, affordEditorial, affordVehicleExamples, affordAPRScenarios
 } from '../../lib/calculations';
 
 export async function getStaticPaths() {
@@ -21,10 +21,12 @@ export async function getStaticProps({ params }) {
   const data = affordData(parsed.salary);
   const faqs = affordFAQs(parsed.salary);
   const editorial = affordEditorial(parsed.salary);
-  return { props: { data, faqs, slug: params.slug, editorial }, revalidate: 2592000 };
+  const vehicles = affordVehicleExamples(parsed.salary);
+  const aprScenarios = affordAPRScenarios(parsed.salary);
+  return { props: { data, faqs, slug: params.slug, editorial, vehicles, aprScenarios }, revalidate: 2592000 };
 }
 
-export default function AffordPage({ data, faqs, slug, editorial }) {
+export default function AffordPage({ data, faqs, slug, editorial, vehicles, aprScenarios }) {
   const { salary, takeHome, max15, paymentCeiling15, paymentCeiling10, vehicleAt15, vehicleAt10, sp10_15 } = data;
 
   const fmtS = n => '$' + n.toLocaleString();
@@ -162,6 +164,65 @@ export default function AffordPage({ data, faqs, slug, editorial }) {
       </section>
 
       {/* Newsletter capture */}
+              {/* Vehicle examples — three tiers */}
+              {vehicles && (
+                <div style={{ margin: '32px 0' }}>
+                  <h2 style={{ fontFamily: 'Barlow Condensed, sans-serif', fontSize: 22, fontWeight: 800, color: '#17140D', marginBottom: 6 }}>Three vehicles at this budget</h2>
+                  <p style={{ fontSize: 14, color: '#666', marginBottom: 20 }}>Safe pick, stretch, and what counts as luxury at {fmtS(data.salary)} salary.</p>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                    {[['safe', 'Safe Pick'], ['stretch', 'Stretch'], ['luxury', 'Luxury Tier']].map(([key, label]) => {
+                      const v = vehicles[key];
+                      return (
+                        <div key={key} style={{ background: '#fff', border: '1px solid #D8D3C8', borderRadius: 10, padding: '14px 18px' }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
+                            <div>
+                              <div style={{ fontFamily: 'Barlow Condensed, sans-serif', fontSize: 10, fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: '#E8A020', marginBottom: 4 }}>{label}</div>
+                              {v.slug ? (
+                                <a href={`/cars/${v.slug}`} style={{ fontFamily: 'Barlow Condensed, sans-serif', fontSize: 16, fontWeight: 700, color: '#17140D', textDecoration: 'none' }}>{v.name} →</a>
+                              ) : (
+                                <div style={{ fontFamily: 'Barlow Condensed, sans-serif', fontSize: 16, fontWeight: 700, color: '#17140D' }}>{v.name}</div>
+                              )}
+                              <p style={{ fontSize: 13, color: '#666', lineHeight: 1.6, marginTop: 4 }}>{v.why}</p>
+                            </div>
+                            <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                              <div style={{ fontFamily: 'Barlow Condensed, sans-serif', fontSize: 22, fontWeight: 900, color: '#17140D' }}>{fmtS(v.payment)}</div>
+                              <div style={{ fontSize: 11, color: '#888' }}>/month</div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* APR scenario math */}
+              {aprScenarios && (
+                <div style={{ margin: '32px 0' }}>
+                  <h2 style={{ fontFamily: 'Barlow Condensed, sans-serif', fontSize: 22, fontWeight: 800, color: '#17140D', marginBottom: 6 }}>What if your APR is bad?</h2>
+                  <p style={{ fontSize: 14, color: '#666', marginBottom: 16 }}>Your {fmtS(aprScenarios.ceiling)}/month ceiling finances different vehicles depending on your rate.</p>
+                  <div style={{ background: '#fff', border: '1px solid #D8D3C8', borderRadius: 10, overflow: 'hidden' }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                      <thead>
+                        <tr style={{ background: '#F5F2EB' }}>
+                          <th style={{ padding: '10px 16px', textAlign: 'left', fontFamily: 'Barlow Condensed, sans-serif', fontSize: 11, fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: '#666' }}>Rate</th>
+                          <th style={{ padding: '10px 16px', textAlign: 'right', fontFamily: 'Barlow Condensed, sans-serif', fontSize: 11, fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: '#666' }}>Vehicle you can finance</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {aprScenarios.scenarios.map((s, i) => (
+                          <tr key={i} style={{ borderTop: '1px solid #E8E3D8' }}>
+                            <td style={{ padding: '12px 16px', fontFamily: 'Barlow, sans-serif', fontSize: 14, color: '#17140D' }}>{s.label}</td>
+                            <td style={{ padding: '12px 16px', textAlign: 'right', fontFamily: 'Barlow Condensed, sans-serif', fontSize: 18, fontWeight: 800, color: i === 0 ? '#2a7a2a' : i === 1 ? '#9A5C00' : '#cc3232' }}>{fmtS(s.vehicle)}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  <p style={{ fontSize: 12, color: '#888', marginTop: 8 }}>Based on 60-month loan at {fmtS(aprScenarios.ceiling)}/month payment. A 4-point rate difference costs you {fmtS(aprScenarios.scenarios[0].vehicle - aprScenarios.scenarios[2].vehicle)} in buying power.</p>
+                </div>
+              )}
+
               {editorial && (
                 <div style={{ margin: '32px 0' }}>
                   <div style={{ fontFamily: 'Barlow Condensed, sans-serif', fontSize: 11, fontWeight: 700, letterSpacing: '.18em', textTransform: 'uppercase', color: '#9A5C00', marginBottom: 16 }}>The Automotivist Take</div>
