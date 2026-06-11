@@ -2,13 +2,6 @@
 const nextConfig = {
   reactStrictMode: true,
 
-  // Prevent OOM during static generation of 549+ pages on Vercel
-  staticPageGenerationTimeout: 120,
-  experimental: {
-    workerThreads: false,
-    cpus: 1,
-  },
-
   images: {
     domains: ['images.unsplash.com'],
   },
