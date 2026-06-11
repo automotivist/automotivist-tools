@@ -4,7 +4,7 @@
 import Layout from '../../components/Layout';
 import NewsletterCapture from '../../components/NewsletterCapture';
 import Link from 'next/link';
-import { AFFORD_SALARIES, fmtDollar, monthlyTakeHome, threshold15, DATA_UPDATED } from '../../lib/calculations';
+import { AFFORD_SALARIES, fmtDollar, monthlyTakeHome, threshold15, DATA_UPDATED, AFFORD_ANCHOR_TEXT } from '../../lib/calculations';
 import { VEHICLES } from '../../lib/vehicles-data';
 import { IMAGES, unsplashUrl, fallbackUrl } from '../../lib/page-images';
 
@@ -27,8 +27,8 @@ const faqSchema = {
 export default function CarPaymentGuide() {
   return (
     <Layout
-      title="The 15% Car Payment Rule: Payment Ceilings for Every Salary ($40K to $200K)"
-      description="The 15% rule: your car payment should not exceed 15% of monthly take-home. The national average is 32%. Exact ceilings for every salary from $40K to $200K."
+      title="The 15% Rule: What % of Income Should Go to a Car (2026)"
+      description="Most Americans spend 32% of take-home on a car. The 15% rule shows what you should actually spend by income. See the math for your salary in 30 seconds."
       canonical="https://tools.automotivist.com/guides/car-payment-guide"
       schemas={[faqSchema]}
     >
@@ -157,7 +157,7 @@ export default function CarPaymentGuide() {
             {AFFORD_SALARIES.map(s => (
               <Link key={s} href={`/afford/${s}-salary`} className="related-card">
                 <div className="related-card-label">Affordability Analysis</div>
-                <div className="related-card-title">How much car on {fmtDollar(s)}?</div>
+                <div className="related-card-title">{AFFORD_ANCHOR_TEXT[s] || `How much car on ${fmtDollar(s)}?`}</div>
                 <div style={{ fontSize: 13, color: 'var(--muted)', marginTop: 6 }}>Payment ceiling: {fmtDollar(Math.max(0, threshold15(s) - 175))}/mo</div>
               </Link>
             ))}
