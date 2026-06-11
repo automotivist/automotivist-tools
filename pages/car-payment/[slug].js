@@ -15,7 +15,7 @@ import {
   estimateInsurance, estimateFuel, estimateMaintenance, trueMonthlyCost,
   totalLoanCost, totalInterest, sp500_5yr, sp500_10yr, monthlyOverspend,
   getVerdict, verdictLabel, verdictClass,
-  directAnswerText, generateFAQs, relatedPages, intentProfile, scenarioContext,
+  directAnswerText, generateFAQs, relatedPages, intentProfile, scenarioContext, paymentAPRTable,
   fmtDollar, fmtK,
 } from '../../lib/calculations';
 
@@ -23,7 +23,7 @@ export default function PaymentPage({ payment, salary, data }) {
   const {
     takeHome, thresh15, pct, insEst, fuelEst, maintEst, trueMonthly,
     loan60, loan72, interest60, interest72, sp5, sp10, overspend,
-    verdict, faqs, related, intent, scenario,
+    verdict, faqs, related, intent, scenario, aprTable,
   } = data;
 
   const vClass  = verdictClass(verdict);
@@ -83,10 +83,10 @@ export default function PaymentPage({ payment, salary, data }) {
         const angle = data.intent?.angle;
         const over = Math.max(0, payment - thresh15);
         const sp10k = fmtK(sp10);
-        if (angle === 'underwater') return `${fmtDollar(payment)}/month on a ${fmtDollar(salary)} salary is ${pct}% of take-home — ${fmtDollar(over)} over the 15% ceiling every month. That gap costs ${sp10k} in S&P 500 wealth over 10 years.`;
-        if (angle === 'stretched')  return `${fmtDollar(payment)}/month on a ${fmtDollar(salary)} salary is ${pct}% of take-home — ${fmtDollar(over)} above the 15% rule ceiling. True all-in cost with insurance, fuel, and maintenance: ${fmtDollar(trueMonthly)}/month.`;
-        if (angle === 'borderline') return `${fmtDollar(payment)}/month on a ${fmtDollar(salary)} salary = ${pct}% of take-home — right at the 15% ceiling. True all-in monthly cost: ${fmtDollar(trueMonthly)}. Full breakdown + Ownership Score calculator.`;
-        return `${fmtDollar(payment)}/month on a ${fmtDollar(salary)} salary = ${pct}% of take-home — inside the 15% rule. True all-in cost: ${fmtDollar(trueMonthly)}/month. Run your free Ownership Score.`;
+        if (angle === 'underwater') return `${fmtDollar(payment)}/month on ${fmtDollar(salary)} is ${pct}% of take-home — ${fmtDollar(over)}/month over the 15% ceiling. That gap costs ${sp10k} in S&P 500 wealth over 10 years. Experian + AAA data. Check in 30 seconds.`;
+        if (angle === 'stretched')  return `${fmtDollar(payment)}/month on ${fmtDollar(salary)} is ${pct}% of take-home — ${fmtDollar(over)} above the 15% ceiling. All-in true cost: ${fmtDollar(trueMonthly)}/month. Experian + AAA + Bankrate data.`;
+        if (angle === 'borderline') return `${fmtDollar(payment)}/month on ${fmtDollar(salary)} = ${pct}% of take-home — right at the 15% limit. True all-in cost: ${fmtDollar(trueMonthly)}/month. AAA + Experian data. Get your Ownership Score free.`;
+        return `${fmtDollar(payment)}/month on ${fmtDollar(salary)} = ${pct}% of take-home — inside the 15% rule. True all-in cost: ${fmtDollar(trueMonthly)}/month. AAA + Experian + Bankrate data. Free Ownership Score.`;
       })()}
       canonical={`https://tools.automotivist.com/car-payment/${payment}-per-month-${salary}-salary`}
     >
@@ -320,6 +320,41 @@ export default function PaymentPage({ payment, salary, data }) {
                 />
               </section>
 
+              {/* APR buying power table — what rate does to this payment */}
+              {aprTable && (
+                <div style={{ margin: '32px 0' }}>
+                  <h2 className="h-display" style={{ fontSize: 22, marginBottom: 6 }}>
+                    What {fmtDollar(payment)}/month finances by credit score
+                  </h2>
+                  <p style={{ fontSize: 14, color: 'var(--muted)', marginBottom: 16 }}>
+                    Same payment. Different rates. The credit score gap in dollars.
+                  </p>
+                  <div style={{ background: 'var(--light-surface, #fff)', border: '1px solid var(--light-border, #D8D3C8)', borderRadius: 10, overflow: 'hidden' }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                      <thead>
+                        <tr style={{ background: 'var(--light-bg, #F5F2EB)' }}>
+                          <th style={{ padding: '10px 14px', textAlign: 'left',  fontSize: 11, fontFamily: 'var(--font-display)', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--muted)' }}>Rate</th>
+                          <th style={{ padding: '10px 14px', textAlign: 'right', fontSize: 11, fontFamily: 'var(--font-display)', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--muted)' }}>60 months</th>
+                          <th style={{ padding: '10px 14px', textAlign: 'right', fontSize: 11, fontFamily: 'var(--font-display)', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--muted)' }}>72 months</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {aprTable.map((row, i) => (
+                          <tr key={i} style={{ borderTop: '1px solid var(--light-border, #E8E3D8)' }}>
+                            <td style={{ padding: '11px 14px', fontSize: 13, color: 'var(--text, #17140D)' }}>{row.label}</td>
+                            <td style={{ padding: '11px 14px', textAlign: 'right', fontFamily: 'var(--font-display)', fontSize: 17, fontWeight: 800, color: i === 0 ? '#2a7a2a' : i === 1 ? 'var(--text)' : i === 2 ? '#9A5C00' : '#cc3232' }}>{fmtDollar(row.vehicle60)}</td>
+                            <td style={{ padding: '11px 14px', textAlign: 'right', fontFamily: 'var(--font-display)', fontSize: 17, fontWeight: 800, color: i === 0 ? '#2a7a2a' : i === 1 ? 'var(--text)' : i === 2 ? '#9A5C00' : '#cc3232' }}>{fmtDollar(row.vehicle72)}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  <p style={{ fontSize: 11, color: 'var(--muted)', marginTop: 8 }}>
+                    A 6-point credit improvement (5.9% vs 12%) is worth {fmtDollar(aprTable[0].vehicle60 - aprTable[3].vehicle60)} in buying power on a 60-month loan.
+                  </p>
+                </div>
+              )}
+
               {/* The Automotivist Take — unique editorial per payment/income combination */}
               {scenario && (
                 <div style={{ margin: '32px 0' }}>
@@ -504,6 +539,7 @@ export async function getStaticProps({ params }) {
     related:     relatedPages(payment, salary),
     intent:      intentProfile(payment, salary),
     scenario:    scenarioContext(payment, salary, intentProfile(payment, salary)?.angle || 'borderline'),
+    aprTable:    paymentAPRTable(payment),
   };
 
   return {
