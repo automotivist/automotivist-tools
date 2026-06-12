@@ -6,6 +6,7 @@ import NewsletterCapture from '../../components/NewsletterCapture';
 import Link from 'next/link';
 import { AFFORD_SALARIES, fmtDollar, monthlyTakeHome, threshold15, DATA_UPDATED, AFFORD_ANCHOR_TEXT } from '../../lib/calculations';
 import { VEHICLES } from '../../lib/vehicles-data';
+import { STORIES } from '../../lib/stories-data';
 import { IMAGES, unsplashUrl, fallbackUrl } from '../../lib/page-images';
 
 const SAMPLE_SALARIES = [40000,50000,60000,75000,90000,100000,120000,150000];
@@ -205,6 +206,36 @@ export default function CarPaymentGuide() {
               </Link>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Stories — gives Googlebot crawl path to all 10 story pages from this indexed hub */}
+      <section className="section-sm" style={{ borderTop: '1px solid var(--dark-border)' }}>
+        <div className="container">
+          <h2 className="h-display" style={{ fontSize: 'clamp(20px,3vw,28px)', marginBottom: 8 }}>From the Automotivist</h2>
+          <p style={{ color: 'var(--muted)', fontSize: 15, marginBottom: 24 }}>First-person accounts of what cars actually cost — and what getting the math right changes.</p>
+          <div className="related-grid">
+            {STORIES.map(s => (
+              <Link key={s.slug} href={`/stories/${s.slug}`} className="related-card">
+                <div className="related-card-label">{s.category}</div>
+                <div className="related-card-title">{s.title}</div>
+                <div style={{ fontSize: 13, color: 'var(--muted)', marginTop: 6 }}>{s.readTime} read</div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Calculator CTA */}
+      <section style={{ background: 'var(--amber)', padding: '40px 24px', textAlign: 'center' }}>
+        <div style={{ maxWidth: 600, margin: '0 auto' }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(22px,3vw,32px)', fontWeight: 800, color: '#17140D', marginBottom: 12 }}>
+            Get your Ownership Score in 30 seconds
+          </div>
+          <p style={{ fontSize: 15, color: '#5a3e00', marginBottom: 24 }}>Enter your payment and income. See your score, your true monthly cost, and what it costs you over 10 years.</p>
+          <Link href="/calculator" style={{ display: 'inline-block', background: '#17140D', color: '#fff', fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 800, letterSpacing: '.06em', textTransform: 'uppercase', padding: '14px 32px', borderRadius: 8, textDecoration: 'none' }}>
+            Free Calculator →
+          </Link>
         </div>
       </section>
     </Layout>
