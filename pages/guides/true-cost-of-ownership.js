@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { VEHICLES, vehicleTrueCost } from '../../lib/vehicles-data';
 import { IMAGES, unsplashUrl, fallbackUrl } from '../../lib/page-images';
 import { DATA_UPDATED } from '../../lib/calculations';
+import { STORIES } from '../../lib/stories-data';
 
 const COST_COMPONENTS = [
   { name: 'Loan payment', note: 'What the dealership quotes. 60% of the real number.', monthly: null },
@@ -142,6 +143,36 @@ export default function TrueCostGuide() {
               → See the 15% rule by salary
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* Stories section — inbound links to all story pages */}
+      <section className="section-sm" style={{ borderTop: '1px solid var(--dark-border)' }}>
+        <div className="container">
+          <h2 className="h-display" style={{ fontSize: 'clamp(20px,3vw,28px)', marginBottom: 8 }}>From the Automotivist</h2>
+          <p style={{ color: 'var(--muted)', fontSize: 15, marginBottom: 24 }}>What true cost looks like in practice — told through real vehicles, real numbers, and one person's financial arc with cars.</p>
+          <div className="related-grid">
+            {STORIES.map(s => (
+              <Link key={s.slug} href={`/stories/${s.slug}`} className="related-card">
+                <div className="related-card-label">{s.category}</div>
+                <div className="related-card-title">{s.title}</div>
+                <div style={{ fontSize: 13, color: 'var(--muted)', marginTop: 6 }}>{s.heroStat} — {s.readTime} read</div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Calculator CTA */}
+      <section style={{ background: 'var(--amber)', padding: '40px 24px', textAlign: 'center' }}>
+        <div style={{ maxWidth: 600, margin: '0 auto' }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(22px,3vw,32px)', fontWeight: 800, color: '#17140D', marginBottom: 12 }}>
+            What is your car actually costing you?
+          </div>
+          <p style={{ fontSize: 15, color: '#5a3e00', marginBottom: 24 }}>The payment is only part of it. Get your Ownership Score, true monthly cost, and 10-year wealth impact free.</p>
+          <Link href="/calculator" style={{ display: 'inline-block', background: '#17140D', color: '#fff', fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 800, letterSpacing: '.06em', textTransform: 'uppercase', padding: '14px 32px', borderRadius: 8, textDecoration: 'none' }}>
+            Free Calculator →
+          </Link>
         </div>
       </section>
     </Layout>
