@@ -8,15 +8,31 @@ const nextConfig = {
 
   async redirects() {
     return [
+      // ── Fix: /home duplicate (/home exists at both www and non-www)
       { source: '/home', destination: '/', permanent: true },
+
+      // ── Fix: 404s — old Beehiiv paths Google discovered
+      { source: '/authors',                        destination: '/',                               permanent: true },
+      { source: '/publications',                   destination: '/',                               permanent: true },
+      { source: '/best-cars-for-the-apocalypse',   destination: '/stories/rideshare-car-trap',     permanent: true },
+      { source: '/best-cars-for-the-apocalypse/',  destination: '/stories/rideshare-car-trap',     permanent: true },
+
+      // ── Fix: old Beehiiv tag pages
+      { source: '/tag/:tag*', destination: '/', permanent: true },
     ];
   },
 
   async headers() {
     return [
+      // Calculator embeddable
       {
         source: '/calculator',
         headers: [{ key: 'X-Frame-Options', value: 'ALLOWALL' }],
+      },
+      // Fix: canonical for subscribe with query params — tell Google the clean URL
+      {
+        source: '/subscribe',
+        headers: [{ key: 'Link', value: '<https://automotivist.com/subscribe>; rel="canonical"' }],
       },
     ];
   },
